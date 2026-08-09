@@ -39,7 +39,9 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
   const [locked, setLocked] = useState(false);
   const [revealedCount, setRevealedCount] = useState(0);
   const [isMobileLayout, setIsMobileLayout] = useState(false);
+  const [focusedCardId, setFocusedCardId] = useState<number | null>(null);
   const visibleDeck = deck.slice(0, getVisibleCardLimit(spreadCount, deck.length));
+  const focusedCard = visibleDeck.find((card) => card.id === focusedCardId);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
@@ -73,6 +75,7 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
     if (locked || status !== 'PICKING' || pickedCards.length >= spreadCount) return;
 
     setLocked(true);
+    setFocusedCardId(null);
     onPickCard(card);
 
     setTimeout(() => {
@@ -86,35 +89,85 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
     handlePick(card);
   };
 
+  const handleMobileCardFocus = (
+    card: PickedCard,
+    element: HTMLButtonElement
+  ) => {
+    if (locked || status !== 'PICKING' || pickedCards.length >= spreadCount) return;
+
+    setFocusedCardId(card.id);
+
+    const scroller = element.parentElement;
+    if (!scroller) return;
+
+    const centeredLeft = element.offsetLeft - (scroller.clientWidth - element.clientWidth) / 2;
+    scroller.scrollTo({ left: centeredLeft, behavior: 'smooth' });
+  };
+
   const renderDeck = () => {
     if (visibleDeck.length === 0) return null;
 
     if (isMobileLayout) {
       return (
-        <div className={styles.mobileDeckScroller}>
-          {visibleDeck.map((card, idx) => (
-            <motion.div
-              key={card.id}
-              className={styles.mobileDeckCard}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => handleCardClick(card)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault();
-                  handleCardClick(card);
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label={`Rút lá ${idx + 1} từ bộ bài`}
-            >
-              <FlyingCard
-                card={card}
-                isFlipped={false}
-                layoutId={`card-${card.id}`}
-              />
-            </motion.div>
-          ))}
+        <div className={styles.mobileDeckStage}>
+          <div className={styles.mobileFocusCue} aria-live="polite">
+            {focusedCard
+              ? `Bạn đang chọn lá ${visibleDeck.indexOf(focusedCard) + 1}`
+              : 'Chạm vào một lá để chọn'}
+          </div>
+
+          <div className={styles.mobileDeckScroller}>
+            {visibleDeck.map((card, idx) => {
+              const isFocused = card.id === focusedCardId;
+
+              return (
+                <motion.button
+                  key={card.id}
+                  type="button"
+                  className={`${styles.mobileDeckCard} ${isFocused ? styles.mobileDeckCardFocused : ''}`}
+                  initial={{ opacity: 0, y: 56 }}
+                  animate={{
+                    opacity: focusedCardId === null || isFocused ? 1 : 0.72,
+                    y: isFocused ? -46 : 0,
+                    scale: isFocused ? 1.08 : 1
+                  }}
+                  transition={{
+                    delay: focusedCardId === null ? Math.min(idx * 0.025, 0.25) : 0,
+                    type: 'spring',
+                    stiffness: 330,
+                    damping: 24
+                  }}
+                  whileTap={{ scale: isFocused ? 1.04 : 0.96 }}
+                  onClick={(event) => handleMobileCardFocus(card, event.currentTarget)}
+                  aria-label={`Chọn lá ${idx + 1} từ bộ bài`}
+                  aria-pressed={isFocused}
+                  disabled={locked || status !== 'PICKING'}
+                >
+                  <FlyingCard
+                    card={card}
+                    isFlipped={false}
+                    layoutId={`card-${card.id}`}
+                  />
+                  <span className={styles.mobileCardIndex}>Lá {idx + 1}</span>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          <motion.button
+            type="button"
+            className={styles.mobileConfirmButton}
+            initial={false}
+            animate={{
+              opacity: focusedCard ? 1 : 0.45,
+              scale: focusedCard ? 1 : 0.98
+            }}
+            whileTap={focusedCard ? { scale: 0.96 } : undefined}
+            disabled={!focusedCard || locked || status !== 'PICKING'}
+            onClick={() => focusedCard && handlePick(focusedCard)}
+          >
+            {locked ? 'Đang rút bài...' : focusedCard ? 'Rút lá này' : 'Chọn một lá để rút'}
+          </motion.button>
         </div>
       );
     }
@@ -215,7 +268,9 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
               Đã chọn {pickedCards.length} / {spreadCount}
             </div>
             <div className={styles.progressHint}>
-              Chạm một lần vào bất kỳ lá nào trong dãy bài để rút.
+              {isMobileLayout
+                ? 'Vuốt để xem bộ bài, chạm vào lá bạn muốn rồi bấm “Rút lá này”.'
+                : 'Nhấp vào bất kỳ lá nào trong bộ bài để rút.'}
             </div>
           </div>
         )}

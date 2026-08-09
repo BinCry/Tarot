@@ -224,10 +224,13 @@
 
 .mobileDeckScroller {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   overflow-x: auto;
-  padding: 8px 4px 16px;
-  scroll-snap-type: x proximity;
+  overflow-y: hidden;
+  padding: 58px calc(50% - 52px) 16px;
+  scroll-padding-inline: calc(50% - 52px);
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -237,10 +240,115 @@
 }
 
 .mobileDeckCard {
-  flex: 0 0 92px;
-  height: 138px;
+  position: relative;
+  flex: 0 0 104px;
+  width: 104px;
+  height: 156px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
   scroll-snap-align: center;
+  scroll-snap-stop: always;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobileDeckCard:focus-visible {
+  outline: 3px solid rgba(239, 194, 72, 0.9);
+  outline-offset: 5px;
+}
+
+.mobileDeckCard:disabled {
+  cursor: default;
+}
+
+.mobileDeckCardFocused::before {
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+  border: 1px solid rgba(239, 194, 72, 0.72);
+  border-radius: 16px;
+  background: radial-gradient(circle at 50% 42%, rgba(239, 194, 72, 0.23), transparent 68%);
+  box-shadow: 0 12px 34px rgba(239, 194, 72, 0.2);
+  content: '';
+}
+
+.mobileCardIndex {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  z-index: 5;
+  padding: 4px 6px;
+  border: 1px solid rgba(239, 194, 72, 0.34);
+  border-radius: 999px;
+  background: rgba(8, 8, 13, 0.82);
+  color: #ead899;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.mobileDeckStage {
+  position: relative;
+  width: 100%;
+}
+
+.mobileFocusCue {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  z-index: 20;
+  min-width: 180px;
+  transform: translateX(-50%);
+  color: #dcc98b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.mobileFocusCue::after {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 7px auto 0;
+  border-top: 7px solid rgba(239, 194, 72, 0.82);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  content: '';
+  filter: drop-shadow(0 0 5px rgba(239, 194, 72, 0.5));
+}
+
+.mobileConfirmButton {
+  display: block;
+  width: min(280px, calc(100% - 32px));
+  min-height: 52px;
+  margin: 2px auto 0;
+  border: 1px solid rgba(239, 194, 72, 0.7);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f0c64f, #c9971d);
+  box-shadow: 0 10px 30px rgba(201, 151, 29, 0.2);
+  color: #171108;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   touch-action: manipulation;
+}
+
+.mobileConfirmButton:disabled {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: not-allowed;
 }
 
 @media (min-width: 768px) {
@@ -254,7 +362,7 @@
 @media (max-width: 767px) {
   .bottomDeckArea {
     height: auto;
-    min-height: 176px;
+    min-height: 286px;
     margin-top: 24px;
   }
 
