@@ -33,6 +33,7 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
 }) => {
   const [locked, setLocked] = useState(false);
   const [revealedCount, setRevealedCount] = useState(0);
+  const [previewedCardId, setPreviewedCardId] = useState<number | null>(null);
 
   // When all picked cards finish revealing, trigger AI
   useEffect(() => {
@@ -57,6 +58,18 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
     }, 800); 
   };
 
+  const handleCardClick = (card: PickedCard) => {
+    if (locked || status !== 'PICKING' || pickedCards.length >= spreadCount) return;
+    
+    // Trên điện thoại không có hover, người dùng cần chạm 1 lần để đẩy lá bài lên (preview), chạm lần 2 để chốt bốc
+    if (previewedCardId === card.id) {
+      setPreviewedCardId(null);
+      handlePick(card);
+    } else {
+      setPreviewedCardId(card.id);
+    }
+  };
+
   // Generate fan positions for the deck
   const renderDeck = () => {
     if (deck.length === 0) return null;
@@ -69,6 +82,8 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
           const rotate = offset * 1.0; // Giảm góc xoay để bài không quá nghiêng
           const x = offset * 2; // Thêm translateX để xòe bài sang hai bên
           
+          const isPreviewed = previewedCardId === card.id;
+          
           return (
             <motion.div
               key={card.id}
@@ -77,11 +92,15 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
                 transformOrigin: "bottom center", // Tâm xoay ở đúng đáy bài để không bị tụt xuống
                 rotate: `${rotate}deg`,
                 x: x, // Xoè ngang
-                zIndex: idx
+                zIndex: isPreviewed ? 200 : idx
               }}
-              whileHover={{ y: -20, scale: 1.05 }}
+              animate={{
+                y: isPreviewed ? -40 : 0,
+                scale: isPreviewed ? 1.15 : 1,
+              }}
+              whileHover={{ y: isPreviewed ? -40 : -20, scale: isPreviewed ? 1.15 : 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handlePick(card)}
+              onClick={() => handleCardClick(card)}
             >
               <FlyingCard 
                 card={card}
