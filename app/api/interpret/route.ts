@@ -8,6 +8,15 @@ export const maxDuration = 60;
 
 const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 const FALLBACK_GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_MODEL_PRIORITY = [
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  DEFAULT_GEMINI_MODEL,
+  FALLBACK_GEMINI_MODEL,
+  'gemini-flash-latest'
+];
 
 type RequestCard = {
   name: string;
@@ -293,6 +302,41 @@ function getMaxOutputTokens(cardCount: number) {
   return Math.min(12_288, 4_096 + cardCount * 640);
 }
 
+async function discoverAvailableGeminiModels(ai: GoogleGenAI) {
+  const pager = await ai.models.list({
+    config: {
+      pageSize: 100,
+      queryBase: true,
+      httpOptions: { timeout: 10_000 }
+    }
+  });
+
+  const availableModels = pager.page
+    .filter((model) => {
+      const modelName = model.name?.replace(/^models\//, '') || '';
+      const supportsGeneration =
+        !model.supportedActions?.length ||
+        model.supportedActions.some((action) => action.toLowerCase() === 'generatecontent');
+      const isTextFlashModel =
+        modelName.startsWith('gemini-') &&
+        modelName.includes('flash') &&
+        !/(audio|image|live|tts)/i.test(modelName);
+
+      return supportsGeneration && isTextFlashModel;
+    })
+    .map((model) => model.name?.replace(/^models\//, ''))
+    .filter((modelName): modelName is string => Boolean(modelName));
+
+  return availableModels.sort((first, second) => {
+    const firstPriority = GEMINI_MODEL_PRIORITY.indexOf(first);
+    const secondPriority = GEMINI_MODEL_PRIORITY.indexOf(second);
+    const firstScore = firstPriority === -1 ? Number.MAX_SAFE_INTEGER : firstPriority;
+    const secondScore = secondPriority === -1 ? Number.MAX_SAFE_INTEGER : secondPriority;
+
+    return firstScore - secondScore;
+  });
+}
+
 async function generateGeminiInterpretation(
   ai: GoogleGenAI,
   model: string,
@@ -443,8 +487,10 @@ Kết quả phải có đúng 5 trường: summary, cards, connection, guidance 
     );
     let response: GenerateContentResponse | undefined;
     let lastError: unknown;
+    let didDiscoverModels = false;
 
-    for (const candidateModel of candidateModels) {
+    for (let modelIndex = 0; modelIndex < candidateModels.length; modelIndex += 1) {
+      const candidateModel = candidateModels[modelIndex];
       activeModel = candidateModel;
       attemptedModel = candidateModel;
       responseFormat = 'schema';
@@ -484,16 +530,30 @@ Kết quả phải có đúng 5 trường: summary, cards, connection, guidance 
       } catch (error) {
         lastError = error;
         const failure = classifyGeminiFailure(error);
-        const canTryDefaultModel =
-          failure.code === 'MODEL_UNAVAILABLE' &&
-          candidateModel !== candidateModels.at(-1);
 
-        if (!canTryDefaultModel) throw error;
+        if (failure.code !== 'MODEL_UNAVAILABLE') throw error;
 
-        console.warn('Configured Gemini model unavailable; trying the stable default.', {
-          model: candidateModel,
-          fallbackModel: DEFAULT_GEMINI_MODEL
+        console.warn('Gemini model unavailable; trying another accessible model.', {
+          model: candidateModel
         });
+
+        const reachedLastKnownModel = modelIndex === candidateModels.length - 1;
+
+        if (reachedLastKnownModel && !didDiscoverModels) {
+          didDiscoverModels = true;
+          const discoveredModels = await discoverAvailableGeminiModels(ai);
+
+          for (const discoveredModel of discoveredModels) {
+            if (!candidateModels.includes(discoveredModel)) {
+              candidateModels.push(discoveredModel);
+            }
+          }
+
+          console.info('Discovered Gemini text models for this API key.', {
+            count: discoveredModels.length,
+            selected: candidateModels[modelIndex + 1] ?? null
+          });
+        }
       }
     }
 
