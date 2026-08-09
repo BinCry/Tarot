@@ -34,7 +34,7 @@ export const Result: React.FC<ResultProps> = ({ question, pickedCards, interpret
       animate="show"
     >
       <motion.div className={styles.header} variants={itemVariants}>
-        <div className={styles.eyebrow}>YOUR READING</div>
+        <div className={styles.eyebrow}>LUẬN GIẢI CỦA BẠN</div>
         <h2 className={styles.question}>&ldquo;{question}&rdquo;</h2>
       </motion.div>
 
