@@ -27,8 +27,8 @@ export const TarotDeck: React.FC<TarotDeckProps> = ({
   useEffect(() => {
     if (status === 'SHUFFLING') {
       setIsShuffling(true);
-      const timer = setTimeout(() => setIsShuffling(false), 1500);
-      return () => clearTimeout(timer);
+    } else {
+      setIsShuffling(false);
     }
   }, [status]);
 
