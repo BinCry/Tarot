@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import styles from './FlyingCard.module.css';
 import { PickedCard } from '@/types/tarot';
 
@@ -64,7 +65,13 @@ export const FlyingCard: React.FC<FlyingCardProps> = ({
           <div className={styles.backPattern}></div>
         </div>
         <div className={styles.cardFront}>
-          <img src={card.image} alt={card.name} className={styles.cardImage} loading="lazy" />
+          <Image
+            src={card.image}
+            alt={card.name}
+            className={styles.cardImage}
+            fill
+            sizes="(max-width: 767px) 112px, 120px"
+          />
           <div className={styles.cardLabel}>
             {card.name} <br/> 
             <span className={styles.orientation}>{card.orientation === 'UPRIGHT' ? 'Xuôi' : 'Ngược'}</span>

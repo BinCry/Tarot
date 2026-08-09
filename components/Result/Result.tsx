@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import styles from './Result.module.css';
 import { PickedCard, InterpretationResult } from '@/types/tarot';
 import { motion, Variants } from 'framer-motion';
@@ -66,10 +67,12 @@ export const Result: React.FC<ResultProps> = ({ question, pickedCards, interpret
               <div className={styles.cardVisual}>
                 {pickedCard ? (
                   <div className={styles.imageWrapper}>
-                    <img 
-                      src={pickedCard.image} 
-                      alt={pickedCard.name} 
+                    <Image
+                      src={pickedCard.image}
+                      alt={pickedCard.name}
                       className={styles.cardImage}
+                      fill
+                      sizes="(max-width: 599px) 120px, 160px"
                       style={{
                         transform: pickedCard.orientation === 'REVERSED' ? 'rotate(180deg)' : 'none'
                       }}

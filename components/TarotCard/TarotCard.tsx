@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import styles from './TarotCard.module.css';
 
 interface TarotCardProps {
@@ -52,12 +53,14 @@ export const TarotCard: React.FC<TarotCardProps> = ({
         <div className={styles.cardFront}>
           <div className={styles.cardImageWrapper} style={frontStyle}>
              {!imgError ? (
-               <img 
-                 src={image} 
-                 alt={name} 
-                 className={styles.realImage} 
-                 onError={() => setImgError(true)} 
-               />
+               <Image
+                  src={image}
+                  alt={name}
+                  className={styles.realImage}
+                  fill
+                  sizes="(max-width: 767px) 80px, 120px"
+                  onError={() => setImgError(true)}
+                />
              ) : (
                <div className={styles.imagePlaceholder}>{name}</div>
              )}
