@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import tarotCards from '@/data/tarot-cards.json';
+import { getVietnameseCardContext, localizeTarotTerms } from '@/data/tarot-vi';
 import type { InterpretationResult, TarotCardData } from '@/types/tarot';
 
 type RequestCard = {
@@ -69,21 +70,26 @@ function normalizeInterpretationResult(
   requestedCards: RequestCard[]
 ): InterpretationResult {
   return {
-    summary: result.summary.trim(),
+    summary: localizeTarotTerms(result.summary.trim()),
     cards: requestedCards.map((requestedCard, index) => {
       const interpretedCard = result.cards[index];
+      const localizedCard = getVietnameseCardContext(
+        requestedCard.name,
+        requestedCard.orientation
+      );
 
       return {
-        card: interpretedCard?.card?.trim() || requestedCard.name,
-        interpretation:
+        card: localizedCard.name,
+        interpretation: localizeTarotTerms(
           interpretedCard?.interpretation?.trim() ||
-          `Lá ${index + 1} chưa nhận được luận giải chi tiết.`
+            `Lá ${index + 1} chưa nhận được luận giải chi tiết.`
+        )
       };
     }),
-    connection: result.connection.trim(),
-    guidance: result.guidance.trim(),
-    reflectionQuestion: result.reflectionQuestion.trim(),
-    notice: result.notice?.trim()
+    connection: localizeTarotTerms(result.connection.trim()),
+    guidance: localizeTarotTerms(result.guidance.trim()),
+    reflectionQuestion: localizeTarotTerms(result.reflectionQuestion.trim()),
+    notice: result.notice ? localizeTarotTerms(result.notice.trim()) : undefined
   };
 }
 
@@ -109,14 +115,14 @@ function getGeminiFailureReason(error: unknown) {
   const status = getErrorStatus(error);
 
   if (status === 401 || status === 403) {
-    return 'Gemini từ chối API key. Hãy kiểm tra key có đúng project và đã bật Generative Language API chưa.';
+    return 'Khóa truy cập Gemini bị từ chối hoặc chưa được cấp quyền sử dụng dịch vụ tạo nội dung.';
   }
 
   if (status === 429) {
-    return 'Gemini đang bận hoặc đã chạm quota.';
+    return 'Gemini đang bận hoặc tài khoản đã chạm hạn mức sử dụng.';
   }
 
-  return 'Gemini không trả về phản hồi hợp lệ từ server.';
+  return 'Gemini chưa trả về phản hồi hợp lệ từ máy chủ.';
 }
 
 function getSpreadLabel(index: number, count: number) {
@@ -126,49 +132,36 @@ function getSpreadLabel(index: number, count: number) {
 }
 
 function buildFallbackCardInterpretation(
-  question: string,
   card: RequestCard,
   index: number,
   count: number
 ) {
-  const referenceCard = tarotCardMap.get(card.name);
+  const localizedCard = getVietnameseCardContext(card.name, card.orientation);
   const orientationLabel = card.orientation === 'UPRIGHT' ? 'xuôi' : 'ngược';
-  const keyMeaning =
-    card.orientation === 'UPRIGHT'
-      ? referenceCard?.uprightMeaning
-      : referenceCard?.reversedMeaning;
-  const keywords = referenceCard?.keywords?.slice(0, 4).join(', ');
-  const fortune = referenceCard?.fortuneTelling?.[0];
 
-  const meaningText = keyMeaning
-    ? `Năng lượng chính của lá này xoay quanh ${keyMeaning.toLowerCase()}.`
-    : 'Lá này cho thấy một tầng ý nghĩa quan trọng cần được nhìn chậm và kỹ hơn.';
-
-  const keywordText = keywords ? `Các từ khóa nổi bật là ${keywords}.` : '';
-  const fortuneText = fortune ? `Một gợi ý ngắn từ lá bài là: ${fortune}.` : '';
-
-  return `Ở vị trí ${getSpreadLabel(index, count)}, ${card.name} ở chiều ${orientationLabel} cho thấy chủ đề này đang tác động trực tiếp lên câu hỏi "${question}". ${keywordText} ${meaningText} ${fortuneText}`.trim();
+  return `Ở vị trí ${getSpreadLabel(index, count)}, lá ${localizedCard.name} ở chiều ${orientationLabel} nói về ${localizedCard.meaning}. Trọng tâm của lá nằm ở ${localizedCard.focus}. Khi đối chiếu với câu hỏi hiện tại, hãy quan sát biểu hiện cụ thể của chủ đề này trong lời nói, cảm xúc và hành động thực tế thay vì vội kết luận từ một dấu hiệu đơn lẻ.`;
 }
 
 function buildFallbackInterpretation(
-  question: string,
   requestedCards: RequestCard[],
   reason: string
 ): InterpretationResult {
   const cardInterpretations = requestedCards.map((card, index) => ({
-    card: card.name,
-    interpretation: buildFallbackCardInterpretation(question, card, index, requestedCards.length)
+    card: getVietnameseCardContext(card.name, card.orientation).name,
+    interpretation: buildFallbackCardInterpretation(card, index, requestedCards.length)
   }));
 
-  const cardNames = requestedCards.map((card) => card.name).join(', ');
+  const cardNames = requestedCards
+    .map((card) => getVietnameseCardContext(card.name, card.orientation).name)
+    .join(', ');
 
   return {
-    summary: `Gemini hiện chưa phản hồi ổn định từ server, nên hệ thống đang dùng bản luận giải dự phòng để bạn không bị gián đoạn. Trải bài này xoay quanh các lá ${cardNames}, nhấn mạnh rằng câu hỏi của bạn cần được nhìn qua nhiều lớp: cảm xúc, nhận thức và hành động thực tế. Hãy xem đây là một nhịp đọc nền để định hướng, sau đó có thể thử lại khi kết nối AI ổn định hơn.`,
+    summary: `Trải bài gồm ${cardNames} mở ra nhiều lớp của câu hỏi: cảm xúc bên trong, cách bạn đang nhìn nhận tình huống và hành động có thể thực hiện trong thực tế. Đây là bản luận giải nền dựa trực tiếp trên từng lá và chiều xuất hiện; hãy đọc các phần theo thứ tự để nhận ra chủ đề nào đang lặp lại rõ nhất.`,
     cards: cardInterpretations,
-    connection: `Nhìn toàn cục, các lá bài đang tạo thành một mạch đọc thống nhất thay vì tách rời. Chúng cho thấy vấn đề không nằm ở một chi tiết đơn lẻ mà ở cách nhiều yếu tố cùng kéo năng lượng của bạn theo những hướng khác nhau. Khi một lá nhấn vào cảm xúc, lá khác thường sẽ bổ sung bằng hành động hoặc bài học nhận thức, vì vậy điều quan trọng là đọc chúng như một cuộc đối thoại giữa các tầng vấn đề.`,
-    guidance: `Trong lúc AI đang lỗi, lời khuyên an toàn nhất là quay về điều cốt lõi của câu hỏi: bạn đang cần làm rõ điều gì, điều gì chỉ là nỗi lo, và điều gì thật sự cần hành động ngay. Hãy ghi lại 1 đến 2 điểm bạn thấy lặp lại nhất từ các lá bài rồi đối chiếu với tình huống thật ngoài đời trước khi ra quyết định lớn.`,
+    connection: 'Nhìn toàn cục, các lá bài tạo thành một mạch đọc thống nhất thay vì những thông điệp tách rời. Lá ở vị trí đầu mô tả nền của câu chuyện, các lá tiếp theo chỉ ra lực cản, nguồn lực hoặc hướng chuyển động. Khi một chủ đề lặp lại ở nhiều vị trí, đó là phần nên được ưu tiên quan sát; khi các lá trái chiều, trải bài đang nhắc bạn cân bằng hai nhu cầu cùng tồn tại.',
+    guidance: 'Hãy quay về điều cốt lõi của câu hỏi: điều gì đã có bằng chứng rõ, điều gì mới chỉ là nỗi lo, và việc nhỏ nào có thể thực hiện ngay để kiểm chứng hướng đi. Ghi lại một đến hai chủ đề lặp lại nhất, đối chiếu chúng với tình huống thật và tránh đưa ra quyết định lớn chỉ dựa trên một lần trải bài.',
     reflectionQuestion: 'Điều gì trong tình huống này đang cần mình nhìn thẳng vào, thay vì chỉ chờ một câu trả lời chắc chắn từ bên ngoài?',
-    notice: `Đang dùng bản luận giải dự phòng vì ${reason}`
+    notice: `Hệ thống đang dùng bản luận giải dự phòng. ${reason}`
   };
 }
 
@@ -212,9 +205,8 @@ export async function POST(req: Request) {
     console.error('API Interpretation Error: Missing GEMINI_API_KEY / GOOGLE_API_KEY in environment');
     return NextResponse.json(
       buildFallbackInterpretation(
-        trimmedQuestion,
         requestedCards,
-        'server chưa nhận được GEMINI_API_KEY. Trên Vercel cần redeploy lại sau khi thêm biến môi trường.'
+        'Máy chủ chưa nhận được khóa truy cập Gemini sau lần triển khai gần nhất.'
       )
     );
   }
@@ -282,7 +274,7 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
     console.error('API Interpretation Error:', details);
 
     return NextResponse.json(
-      buildFallbackInterpretation(trimmedQuestion, requestedCards, getGeminiFailureReason(error))
+      buildFallbackInterpretation(requestedCards, getGeminiFailureReason(error))
     );
   }
 }
