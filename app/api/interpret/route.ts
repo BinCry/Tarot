@@ -29,6 +29,9 @@ type GeminiFailureCode =
   | 'BLOCKED_KEY'
   | 'RESTRICTED_KEY'
   | 'PERMISSION_DENIED'
+  | 'FREE_TIER_UNAVAILABLE'
+  | 'DAILY_QUOTA_EXHAUSTED'
+  | 'RATE_LIMITED'
   | 'QUOTA_EXHAUSTED'
   | 'MODEL_UNAVAILABLE'
   | 'INVALID_REQUEST'
@@ -215,6 +218,38 @@ function classifyGeminiFailure(error: unknown): GeminiFailure {
   }
 
   if (status === 429) {
+    if (
+      details.includes('free_tier') &&
+      (/limit(?: value)?:\s*0\b/.test(details) || details.includes('limit: 0'))
+    ) {
+      return {
+        code: 'FREE_TIER_UNAVAILABLE',
+        status,
+        message: 'Dự án Google hiện có hạn mức miễn phí bằng không cho mẫu Gemini này.'
+      };
+    }
+
+    if (details.includes('per_day') || details.includes('per day') || details.includes('daily')) {
+      return {
+        code: 'DAILY_QUOTA_EXHAUSTED',
+        status,
+        message: 'Dự án đã dùng hết hạn mức Gemini trong ngày.'
+      };
+    }
+
+    if (
+      details.includes('per_minute') ||
+      details.includes('per minute') ||
+      details.includes('rate limit') ||
+      details.includes('too many requests')
+    ) {
+      return {
+        code: 'RATE_LIMITED',
+        status,
+        message: 'Gemini đang giới hạn số yêu cầu trong một khoảng thời gian ngắn.'
+      };
+    }
+
     return {
       code: 'QUOTA_EXHAUSTED',
       status,
@@ -530,10 +565,17 @@ Kết quả phải có đúng 5 trường: summary, cards, connection, guidance 
       } catch (error) {
         lastError = error;
         const failure = classifyGeminiFailure(error);
+        const canTryAnotherModel = [
+          'MODEL_UNAVAILABLE',
+          'FREE_TIER_UNAVAILABLE',
+          'DAILY_QUOTA_EXHAUSTED',
+          'QUOTA_EXHAUSTED'
+        ].includes(failure.code);
 
-        if (failure.code !== 'MODEL_UNAVAILABLE') throw error;
+        if (!canTryAnotherModel) throw error;
 
-        console.warn('Gemini model unavailable; trying another accessible model.', {
+        console.warn('Gemini model failed; trying another accessible model.', {
+          code: failure.code,
           model: candidateModel
         });
 
