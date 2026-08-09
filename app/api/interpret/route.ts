@@ -9,6 +9,40 @@ type RequestCard = {
   orientation: 'UPRIGHT' | 'REVERSED';
 };
 
+type GeminiFailureCode =
+  | 'MISSING_KEY'
+  | 'INVALID_KEY'
+  | 'BLOCKED_KEY'
+  | 'RESTRICTED_KEY'
+  | 'PERMISSION_DENIED'
+  | 'QUOTA_EXHAUSTED'
+  | 'MODEL_UNAVAILABLE'
+  | 'INVALID_REQUEST'
+  | 'EMPTY_RESPONSE'
+  | 'INVALID_RESPONSE'
+  | 'REQUEST_TIMEOUT'
+  | 'SERVICE_UNAVAILABLE'
+  | 'UNKNOWN_ERROR';
+
+type GeminiFailure = {
+  code: GeminiFailureCode;
+  message: string;
+  status?: number;
+};
+
+class GeminiResponseError extends Error {
+  code: Extract<GeminiFailureCode, 'EMPTY_RESPONSE' | 'INVALID_RESPONSE'>;
+
+  constructor(
+    code: Extract<GeminiFailureCode, 'EMPTY_RESPONSE' | 'INVALID_RESPONSE'>,
+    message: string
+  ) {
+    super(message);
+    this.name = 'GeminiResponseError';
+    this.code = code;
+  }
+}
+
 const INTERPRETATION_SCHEMA = {
   type: 'object',
   additionalProperties: false,
@@ -96,7 +130,7 @@ function normalizeInterpretationResult(
 function getErrorStatus(error: unknown) {
   if (!error || typeof error !== 'object') return undefined;
 
-  const status = Reflect.get(error, 'status');
+  const status = Reflect.get(error, 'status') ?? Reflect.get(error, 'statusCode');
   return typeof status === 'number' ? status : undefined;
 }
 
@@ -105,24 +139,137 @@ function getErrorDetails(error: unknown) {
   if (typeof error === 'string') return error;
 
   try {
-    return JSON.stringify(error);
+    return JSON.stringify(error) || 'Không đọc được nội dung lỗi Gemini.';
   } catch {
-    return 'Unknown Gemini error';
+    return 'Không đọc được nội dung lỗi Gemini.';
   }
 }
 
-function getGeminiFailureReason(error: unknown) {
+function classifyGeminiFailure(error: unknown): GeminiFailure {
   const status = getErrorStatus(error);
+  const details = getErrorDetails(error).toLowerCase();
 
-  if (status === 401 || status === 403) {
-    return 'Khóa truy cập Gemini bị từ chối hoặc chưa được cấp quyền sử dụng dịch vụ tạo nội dung.';
+  if (error instanceof GeminiResponseError) {
+    return {
+      code: error.code,
+      status,
+      message: error.code === 'EMPTY_RESPONSE'
+        ? 'Gemini đã nhận yêu cầu nhưng không tạo được nội dung luận giải.'
+        : 'Gemini trả về nội dung không đúng định dạng luận giải.'
+    };
+  }
+
+  if (details.includes('reported as leaked') || details.includes('api key was leaked')) {
+    return {
+      code: 'BLOCKED_KEY',
+      status,
+      message: 'Khóa truy cập đã bị Google đánh dấu là lộ và không còn được phép sử dụng.'
+    };
+  }
+
+  if (
+    details.includes('api key not valid') ||
+    details.includes('invalid api key') ||
+    details.includes('api_key_invalid') ||
+    status === 401
+  ) {
+    return {
+      code: 'INVALID_KEY',
+      status,
+      message: 'Khóa truy cập Gemini không hợp lệ hoặc đã bị thu hồi.'
+    };
+  }
+
+  if (
+    details.includes('referer') ||
+    details.includes('referrer') ||
+    details.includes('application restriction')
+  ) {
+    return {
+      code: 'RESTRICTED_KEY',
+      status,
+      message: 'Khóa truy cập đang bị giới hạn theo trang web hoặc loại ứng dụng nên máy chủ Vercel không thể dùng.'
+    };
+  }
+
+  if (status === 403) {
+    return {
+      code: 'PERMISSION_DENIED',
+      status,
+      message: 'Khóa truy cập chưa được cấp quyền gọi dịch vụ Gemini từ máy chủ.'
+    };
   }
 
   if (status === 429) {
-    return 'Gemini đang bận hoặc tài khoản đã chạm hạn mức sử dụng.';
+    return {
+      code: 'QUOTA_EXHAUSTED',
+      status,
+      message: 'Tài khoản Gemini đã chạm hạn mức hoặc đang bị giới hạn tần suất.'
+    };
   }
 
-  return 'Gemini chưa trả về phản hồi hợp lệ từ máy chủ.';
+  if (
+    status === 404 ||
+    (details.includes('model') && (details.includes('not found') || details.includes('not supported')))
+  ) {
+    return {
+      code: 'MODEL_UNAVAILABLE',
+      status,
+      message: 'Mẫu Gemini đang cấu hình không tồn tại hoặc không hỗ trợ cách gọi hiện tại.'
+    };
+  }
+
+  if (status === 400) {
+    return {
+      code: 'INVALID_REQUEST',
+      status,
+      message: 'Gemini từ chối cấu trúc yêu cầu được gửi từ máy chủ.'
+    };
+  }
+
+  if (status === 408 || details.includes('timeout') || details.includes('timed out')) {
+    return {
+      code: 'REQUEST_TIMEOUT',
+      status,
+      message: 'Yêu cầu tới Gemini mất quá nhiều thời gian và đã hết hạn chờ.'
+    };
+  }
+
+  if (status && status >= 500) {
+    return {
+      code: 'SERVICE_UNAVAILABLE',
+      status,
+      message: 'Dịch vụ Gemini đang tạm thời không sẵn sàng.'
+    };
+  }
+
+  return {
+    code: 'UNKNOWN_ERROR',
+    status,
+    message: 'Gemini chưa trả về phản hồi hợp lệ từ máy chủ.'
+  };
+}
+
+function normalizeApiKey(value: string | undefined) {
+  if (!value) return '';
+
+  const trimmed = value.trim();
+  const isWrappedInQuotes =
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"));
+
+  return isWrappedInQuotes ? trimmed.slice(1, -1).trim() : trimmed;
+}
+
+function getAiHeaders(mode: 'gemini' | 'fallback', code?: GeminiFailureCode, model?: string) {
+  const headers: Record<string, string> = {
+    'X-Tarot-AI-Mode': mode
+  };
+
+  if (code) headers['X-Tarot-AI-Code'] = code;
+  if (model) headers['X-Tarot-AI-Model'] = model;
+
+  return headers;
 }
 
 function getSpreadLabel(index: number, count: number) {
@@ -199,7 +346,8 @@ export async function POST(req: Request) {
 
   const trimmedQuestion = question.trim();
   const requestedCards = cards as RequestCard[];
-  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  const apiKey = normalizeApiKey(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY);
+  const model = process.env.GEMINI_MODEL?.trim() || 'gemini-2.5-flash';
 
   if (!apiKey) {
     console.error('API Interpretation Error: Missing GEMINI_API_KEY / GOOGLE_API_KEY in environment');
@@ -207,13 +355,13 @@ export async function POST(req: Request) {
       buildFallbackInterpretation(
         requestedCards,
         'Máy chủ chưa nhận được khóa truy cập Gemini sau lần triển khai gần nhất.'
-      )
+      ),
+      { headers: getAiHeaders('fallback', 'MISSING_KEY', model) }
     );
   }
 
   try {
     const ai = new GoogleGenAI({ apiKey });
-    const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
     const systemInstruction = `
 Bạn là một tarot reader giàu kinh nghiệm. Nhiệm vụ của bạn là luận giải chi tiết nhưng không khẳng định tuyệt đối.
@@ -250,7 +398,8 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
     const resultText = response.text?.trim();
 
     if (!resultText) {
-      throw new Error(
+      throw new GeminiResponseError(
+        'EMPTY_RESPONSE',
         `Gemini returned an empty response. Finish reason: ${response.candidates?.[0]?.finishReason ?? 'UNKNOWN'}`
       );
     }
@@ -261,20 +410,38 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
       parsedResult = JSON.parse(resultText) as InterpretationResult;
     } catch {
       const cleaned = resultText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      parsedResult = JSON.parse(cleaned) as InterpretationResult;
+
+      try {
+        parsedResult = JSON.parse(cleaned) as InterpretationResult;
+      } catch {
+        throw new GeminiResponseError(
+          'INVALID_RESPONSE',
+          'Gemini returned content that could not be parsed as interpretation JSON.'
+        );
+      }
     }
 
     if (!isInterpretationResult(parsedResult)) {
-      throw new Error(`Gemini returned malformed JSON: ${resultText}`);
+      throw new GeminiResponseError('INVALID_RESPONSE', 'Gemini returned malformed interpretation JSON.');
     }
 
-    return NextResponse.json(normalizeInterpretationResult(parsedResult, requestedCards));
+    return NextResponse.json(
+      normalizeInterpretationResult(parsedResult, requestedCards),
+      { headers: getAiHeaders('gemini', undefined, model) }
+    );
   } catch (error) {
+    const failure = classifyGeminiFailure(error);
     const details = getErrorDetails(error);
-    console.error('API Interpretation Error:', details);
+    console.error('API Interpretation Error:', {
+      code: failure.code,
+      status: failure.status,
+      model,
+      details: details.slice(0, 1000)
+    });
 
     return NextResponse.json(
-      buildFallbackInterpretation(requestedCards, getGeminiFailureReason(error))
+      buildFallbackInterpretation(requestedCards, failure.message),
+      { headers: getAiHeaders('fallback', failure.code, model) }
     );
   }
 }
