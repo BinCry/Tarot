@@ -5,10 +5,10 @@ import styles from './page.module.css';
 import { useTarotLogic } from '@/hooks/useTarotLogic';
 import { ReadingStage } from '@/components/ReadingStage/ReadingStage';
 import { Result } from '@/components/Result/Result';
-import { PickedCard } from '@/types/tarot';
+import { TarotCardData } from '@/types/tarot';
 
 export default function Home() {
-  const [cardsData, setCardsData] = useState<any[]>([]);
+  const [cardsData, setCardsData] = useState<TarotCardData[]>([]);
   const tarot = useTarotLogic(cardsData);
   const { state, setQuestion, setSpreadCount, startReading, pickCard, startInterpretation, restart } = tarot;
 
