@@ -165,7 +165,7 @@
 .bottomDeckArea {
   position: relative;
   width: 100%;
-  height: 250px; /* Chiều cao thực tế để tạo scrollbar */
+  height: 350px; /* Tăng chiều cao để không bị cắt bớt */
   margin-top: 40px;
 }
 
@@ -185,8 +185,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 600px;
-  height: 200px;
+  max-width: 800px;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: flex-end; /* Căn đáy cho các lá bài */
@@ -194,15 +194,16 @@
 
 .deckCardWrapper {
   position: absolute;
-  width: 60px;
-  height: 90px;
-  bottom: 0;
+  width: 80px; /* Phóng to gấp đôi trên mobile */
+  height: 120px;
+  bottom: 20px;
   transition: opacity 0.3s ease;
 }
 
 @media (min-width: 768px) {
   .deckCardWrapper {
-    width: 80px;
-    height: 120px;
+    width: 110px; /* Phóng to trên desktop */
+    height: 165px;
+    bottom: 40px;
   }
 }
