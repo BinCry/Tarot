@@ -51,7 +51,6 @@ export function useTarotLogic(allCards: any[]) {
     // Generate a shuffled deck with random orientations
     const shuffled: PickedCard[] = [...allCards]
       .sort(() => Math.random() - 0.5)
-      .slice(0, 20) // Only need to show 20 cards on table for picking to save DOM nodes
       .map(card => ({
         ...card,
         orientation: Math.random() > 0.5 ? 'UPRIGHT' : 'REVERSED'
