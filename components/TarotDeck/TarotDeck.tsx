@@ -79,7 +79,13 @@ export const TarotDeck: React.FC<TarotDeckProps> = ({
                 image={card.image}
                 isFlipped={false}
                 isSelected={isSelected}
-                onClick={() => onPickCard(index)}
+                onClick={() => {
+                  if (status === 'READY_TO_REVEAL') {
+                    onRevealCards();
+                  } else {
+                    onPickCard(index);
+                  }
+                }}
               />
             </div>
           );

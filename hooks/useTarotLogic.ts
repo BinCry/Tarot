@@ -66,16 +66,7 @@ export function useTarotLogic(allCards: any[]) {
 
   const pickCard = (index: number) => dispatch({ type: 'PICK_CARD', payload: index });
   
-  const revealCards = useCallback(() => {
-    dispatch({ type: 'REVEAL_CARDS' });
-    // Sequential reveal animation takes some time, then we move to interpreting
-    setTimeout(() => {
-      dispatch({ type: 'FINISH_REVEAL' });
-      fetchInterpretation();
-    }, 500 * state.spreadCount + 500); 
-  }, [state.spreadCount]);
-
-  const fetchInterpretation = useCallback(async () => {
+  const fetchInterpretation = async () => {
     try {
       const selectedCards = state.pickedIndices.map(idx => state.deck[idx]);
       const res = await fetch('/api/interpret', {
@@ -94,7 +85,16 @@ export function useTarotLogic(allCards: any[]) {
     } catch (err: any) {
       dispatch({ type: 'SET_ERROR', payload: err.message || 'Unknown error' });
     }
-  }, [state.question, state.pickedIndices, state.deck]);
+  };
+
+  const revealCards = () => {
+    dispatch({ type: 'REVEAL_CARDS' });
+    // Sequential reveal animation takes some time, then we move to interpreting
+    setTimeout(() => {
+      dispatch({ type: 'FINISH_REVEAL' });
+      fetchInterpretation();
+    }, 500 * state.spreadCount + 500); 
+  };
 
   const restart = () => dispatch({ type: 'RESTART' });
 

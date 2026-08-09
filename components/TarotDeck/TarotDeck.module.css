@@ -93,6 +93,16 @@
   opacity: 0.5;
 }
 
+.revealButton:not(:disabled) {
+  animation: pulseButton 2s infinite;
+}
+
+@keyframes pulseButton {
+  0% { transform: scale(1); box-shadow: 0 4px 15px var(--accent-glow); }
+  50% { transform: scale(1.05); box-shadow: 0 4px 25px var(--accent-color); }
+  100% { transform: scale(1); box-shadow: 0 4px 15px var(--accent-glow); }
+}
+
 .revealButton:not(:disabled):hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px var(--accent-glow);
