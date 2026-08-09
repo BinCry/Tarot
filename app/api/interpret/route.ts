@@ -6,10 +6,10 @@ import type { InterpretationResult, TarotCardData } from '@/types/tarot';
 
 export const maxDuration = 60;
 
-const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+const DEFAULT_GEMINI_MODEL = 'gemini-3.6-flash';
 const FALLBACK_GEMINI_MODEL = 'gemini-2.5-flash-lite';
 const GEMINI_MODEL_PRIORITY = [
-  'gemini-3.6-flash',
+  DEFAULT_GEMINI_MODEL,
   'gemini-3.5-flash',
   'gemini-3.5-flash-lite',
   'gemini-3.1-flash-lite',
