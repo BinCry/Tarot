@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 16px 40px; /* Padding nhỏ hơn vì deck đã nằm trong document flow */
+  padding: 0 16px 150px; /* Tăng mạnh padding dưới để người dùng có thể cuộn phần bài lên cao */
   animation: fadeIn 0.5s ease;
 }
 
@@ -165,8 +165,8 @@
 .bottomDeckArea {
   position: relative;
   width: 100%;
-  height: 220px; /* Vừa đủ cho tụ bài */
-  margin-top: 10px;
+  height: 250px; /* Tăng không gian vùng chứa tụ bài */
+  margin-top: 40px;
 }
 
 .shufflingMsg {
@@ -195,7 +195,7 @@
   position: absolute;
   width: 80px; 
   height: 120px;
-  bottom: 0px; /* Bám sát đáy */
+  bottom: 20px; /* Nhấc bài lên một chút để mép không chạm đáy */
   transition: opacity 0.3s ease;
 }
 
@@ -203,6 +203,6 @@
   .deckCardWrapper {
     width: 110px; 
     height: 165px;
-    bottom: 0px;
+    bottom: 40px; /* Nhấc bài lên trên desktop */
   }
 }
