@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, type GenerateContentResponse } from '@google/genai';
 import tarotCards from '@/data/tarot-cards.json';
 import { getVietnameseCardContext, localizeTarotTerms } from '@/data/tarot-vi';
 import type { InterpretationResult, TarotCardData } from '@/types/tarot';
 
 export const maxDuration = 60;
+
+const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 
 type RequestCard = {
   name: string;
@@ -263,13 +265,19 @@ function normalizeApiKey(value: string | undefined) {
   return isWrappedInQuotes ? trimmed.slice(1, -1).trim() : trimmed;
 }
 
-function getAiHeaders(mode: 'gemini' | 'fallback', code?: GeminiFailureCode, model?: string) {
+function getAiHeaders(
+  mode: 'gemini' | 'fallback',
+  code?: GeminiFailureCode,
+  model?: string,
+  format?: 'schema' | 'json'
+) {
   const headers: Record<string, string> = {
     'X-Tarot-AI-Mode': mode
   };
 
   if (code) headers['X-Tarot-AI-Code'] = code;
   if (model) headers['X-Tarot-AI-Model'] = model;
+  if (format) headers['X-Tarot-AI-Format'] = format;
 
   return headers;
 }
@@ -282,6 +290,41 @@ function getSpreadLabel(index: number, count: number) {
 
 function getMaxOutputTokens(cardCount: number) {
   return Math.min(12_288, 4_096 + cardCount * 640);
+}
+
+async function generateGeminiInterpretation(
+  ai: GoogleGenAI,
+  model: string,
+  prompt: string,
+  systemInstruction: string,
+  cardCount: number,
+  useSchema: boolean
+) {
+  return ai.models.generateContent({
+    model,
+    contents: prompt,
+    config: {
+      httpOptions: {
+        timeout: 45_000,
+        retryOptions: {
+          attempts: 2,
+          initialDelay: 0.5,
+          maxDelay: 1.5,
+          expBase: 2,
+          jitter: 0.3,
+          httpStatusCodes: [408, 429, 500, 502, 503, 504]
+        }
+      },
+      systemInstruction,
+      ...(model.startsWith('gemini-3') ? {} : { temperature: 0.6 }),
+      ...(model.startsWith('gemini-2.5')
+        ? { thinkingConfig: { thinkingBudget: 512 } }
+        : {}),
+      maxOutputTokens: getMaxOutputTokens(cardCount),
+      responseMimeType: 'application/json',
+      ...(useSchema ? { responseJsonSchema: INTERPRETATION_SCHEMA } : {})
+    }
+  });
 }
 
 function buildFallbackCardInterpretation(
@@ -353,7 +396,7 @@ export async function POST(req: Request) {
   const trimmedQuestion = question.trim();
   const requestedCards = cards as RequestCard[];
   const apiKey = normalizeApiKey(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY);
-  const model = process.env.GEMINI_MODEL?.trim() || 'gemini-2.5-flash';
+  const configuredModel = process.env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL;
 
   if (!apiKey) {
     console.error('API Interpretation Error: Missing GEMINI_API_KEY / GOOGLE_API_KEY in environment');
@@ -362,12 +405,14 @@ export async function POST(req: Request) {
         requestedCards,
         'Máy chủ chưa nhận được khóa truy cập Gemini sau lần triển khai gần nhất.'
       ),
-      { headers: getAiHeaders('fallback', 'MISSING_KEY', model) }
+      { headers: getAiHeaders('fallback', 'MISSING_KEY', configuredModel) }
     );
   }
 
   try {
     const ai = new GoogleGenAI({ apiKey });
+    let activeModel = configuredModel;
+    let responseFormat: 'schema' | 'json' = 'schema';
 
     const systemInstruction = `
 Bạn là một tarot reader giàu kinh nghiệm. Nhiệm vụ của bạn là luận giải chi tiết nhưng không khẳng định tuyệt đối.
@@ -387,33 +432,68 @@ Dữ liệu tham chiếu cho các lá bài:
 ${requestedCards.map((card, index) => buildCardContext(card, index, requestedCards.length)).join('\n\n')}
 
 Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu hỏi và nhấn mạnh mối liên kết giữa các lá bài.
+Kết quả phải có đúng 5 trường: summary, cards, connection, guidance và reflectionQuestion. Mỗi phần tử trong cards phải có card và interpretation.
 `;
 
-    const response = await ai.models.generateContent({
-      model,
-      contents: prompt,
-      config: {
-        httpOptions: {
-          timeout: 45_000,
-          retryOptions: {
-            attempts: 2,
-            initialDelay: 0.5,
-            maxDelay: 1.5,
-            expBase: 2,
-            jitter: 0.3,
-            httpStatusCodes: [408, 429, 500, 502, 503, 504]
-          }
-        },
-        systemInstruction,
-        ...(model.startsWith('gemini-3') ? {} : { temperature: 0.6 }),
-        ...(model.startsWith('gemini-2.5')
-          ? { thinkingConfig: { thinkingBudget: 512 } }
-          : {}),
-        maxOutputTokens: getMaxOutputTokens(requestedCards.length),
-        responseMimeType: 'application/json',
-        responseJsonSchema: INTERPRETATION_SCHEMA
+    const candidateModels = Array.from(
+      new Set([configuredModel, DEFAULT_GEMINI_MODEL])
+    );
+    let response: GenerateContentResponse | undefined;
+    let lastError: unknown;
+
+    for (const candidateModel of candidateModels) {
+      activeModel = candidateModel;
+      responseFormat = 'schema';
+
+      try {
+        try {
+          response = await generateGeminiInterpretation(
+            ai,
+            candidateModel,
+            prompt,
+            systemInstruction,
+            requestedCards.length,
+            true
+          );
+        } catch (error) {
+          const failure = classifyGeminiFailure(error);
+
+          if (failure.code !== 'INVALID_REQUEST') throw error;
+
+          console.warn('Gemini schema request rejected; retrying with JSON mode.', {
+            code: failure.code,
+            status: failure.status,
+            model: candidateModel
+          });
+          responseFormat = 'json';
+          response = await generateGeminiInterpretation(
+            ai,
+            candidateModel,
+            prompt,
+            systemInstruction,
+            requestedCards.length,
+            false
+          );
+        }
+
+        break;
+      } catch (error) {
+        lastError = error;
+        const failure = classifyGeminiFailure(error);
+        const canTryDefaultModel =
+          failure.code === 'MODEL_UNAVAILABLE' &&
+          candidateModel !== candidateModels.at(-1);
+
+        if (!canTryDefaultModel) throw error;
+
+        console.warn('Configured Gemini model unavailable; trying the stable default.', {
+          model: candidateModel,
+          fallbackModel: DEFAULT_GEMINI_MODEL
+        });
       }
-    });
+    }
+
+    if (!response) throw lastError ?? new Error('Gemini request did not run.');
 
     const resultText = response.text?.trim();
 
@@ -447,7 +527,7 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
 
     return NextResponse.json(
       normalizeInterpretationResult(parsedResult, requestedCards),
-      { headers: getAiHeaders('gemini', undefined, model) }
+      { headers: getAiHeaders('gemini', undefined, activeModel, responseFormat) }
     );
   } catch (error) {
     const failure = classifyGeminiFailure(error);
@@ -455,13 +535,13 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
     console.error('API Interpretation Error:', {
       code: failure.code,
       status: failure.status,
-      model,
+      model: configuredModel,
       details: details.slice(0, 1000)
     });
 
     return NextResponse.json(
       buildFallbackInterpretation(requestedCards, failure.message),
-      { headers: getAiHeaders('fallback', failure.code, model) }
+      { headers: getAiHeaders('fallback', failure.code, configuredModel) }
     );
   }
 }
