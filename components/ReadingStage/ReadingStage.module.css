@@ -165,8 +165,8 @@
 .bottomDeckArea {
   position: relative;
   width: 100%;
-  height: 350px; /* Tăng chiều cao để không bị cắt bớt */
-  margin-top: 40px;
+  height: 220px; /* Vừa đủ cho tụ bài */
+  margin-top: 10px;
 }
 
 .shufflingMsg {
@@ -181,29 +181,28 @@
 
 .deckContainer {
   position: absolute;
-  bottom: 0; 
+  top: 0; 
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 800px;
-  height: 300px;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* Căn đáy cho các lá bài */
 }
 
 .deckCardWrapper {
   position: absolute;
-  width: 80px; /* Phóng to gấp đôi trên mobile */
+  width: 80px; 
   height: 120px;
-  bottom: 20px;
+  bottom: 0px; /* Bám sát đáy */
   transition: opacity 0.3s ease;
 }
 
 @media (min-width: 768px) {
   .deckCardWrapper {
-    width: 110px; /* Phóng to trên desktop */
+    width: 110px; 
     height: 165px;
-    bottom: 40px;
+    bottom: 0px;
   }
 }

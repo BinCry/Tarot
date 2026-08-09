@@ -66,15 +66,17 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
           // Calculate fan spread
           const total = deck.length;
           const offset = idx - total / 2;
-          const rotate = offset * 1.2; // Rộng fan ra một chút
+          const rotate = offset * 1.0; // Giảm góc xoay để bài không quá nghiêng
+          const x = offset * 2; // Thêm translateX để xòe bài sang hai bên
           
           return (
             <motion.div
               key={card.id}
               className={styles.deckCardWrapper}
               style={{
-                transformOrigin: "center 150%", // Tâm xoay nằm dưới lá bài để tạo hình vòng cung rộng hơn
+                transformOrigin: "bottom center", // Tâm xoay ở đúng đáy bài để không bị tụt xuống
                 rotate: `${rotate}deg`,
+                x: x, // Xoè ngang
                 zIndex: idx
               }}
               whileHover={{ y: -20, scale: 1.05 }}
