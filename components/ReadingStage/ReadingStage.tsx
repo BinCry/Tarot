@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ReadingStage.module.css';
 import { PickedCard, TarotStateStatus } from '@/types/tarot';
 import { FlyingCard } from '../FlyingCard/FlyingCard';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ReadingStageProps {
   status: TarotStateStatus;
@@ -17,6 +17,11 @@ interface ReadingStageProps {
   error: string | null;
   onRetry: () => void;
   onRestart: () => void;
+}
+
+function getVisibleCardLimit(spreadCount: number, deckSize: number) {
+  const baseLimit = spreadCount <= 3 ? 14 : spreadCount <= 6 ? 16 : 18;
+  return Math.min(deckSize, baseLimit);
 }
 
 export const ReadingStage: React.FC<ReadingStageProps> = ({
@@ -33,76 +38,123 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
 }) => {
   const [locked, setLocked] = useState(false);
   const [revealedCount, setRevealedCount] = useState(0);
-  const [previewedCardId, setPreviewedCardId] = useState<number | null>(null);
+  const [isMobileLayout, setIsMobileLayout] = useState(false);
+  const visibleDeck = deck.slice(0, getVisibleCardLimit(spreadCount, deck.length));
 
-  // When all picked cards finish revealing, trigger AI
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+
+    const updateLayout = () => {
+      setIsMobileLayout(mediaQuery.matches);
+    };
+
+    updateLayout();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateLayout);
+      return () => mediaQuery.removeEventListener('change', updateLayout);
+    }
+
+    mediaQuery.addListener(updateLayout);
+    return () => mediaQuery.removeListener(updateLayout);
+  }, []);
+
   useEffect(() => {
     if (revealedCount === spreadCount && status === 'PICKING') {
       const timer = setTimeout(() => {
         onAllRevealed();
       }, 500);
+
       return () => clearTimeout(timer);
     }
   }, [revealedCount, spreadCount, status, onAllRevealed]);
 
   const handlePick = (card: PickedCard) => {
     if (locked || status !== 'PICKING' || pickedCards.length >= spreadCount) return;
+
     setLocked(true);
     onPickCard(card);
-    
-    // We unlock AFTER the layout animation (flying) + flip is mostly done
-    // Flying ~400ms, Flip ~600ms. We can unlock slightly early so it feels responsive.
+
     setTimeout(() => {
       setLocked(false);
-      setRevealedCount(prev => prev + 1);
-    }, 800); 
+      setRevealedCount((prev) => prev + 1);
+    }, 800);
   };
 
   const handleCardClick = (card: PickedCard) => {
     if (locked || status !== 'PICKING' || pickedCards.length >= spreadCount) return;
-    
-    // Trên điện thoại không có hover, người dùng cần chạm 1 lần để đẩy lá bài lên (preview), chạm lần 2 để chốt bốc
-    if (previewedCardId === card.id) {
-      setPreviewedCardId(null);
-      handlePick(card);
-    } else {
-      setPreviewedCardId(card.id);
-    }
+    handlePick(card);
   };
 
-  // Generate fan positions for the deck
   const renderDeck = () => {
-    if (deck.length === 0) return null;
+    if (visibleDeck.length === 0) return null;
+
+    if (isMobileLayout) {
+      return (
+        <div className={styles.mobileDeckScroller}>
+          {visibleDeck.map((card, idx) => (
+            <motion.div
+              key={card.id}
+              className={styles.mobileDeckCard}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => handleCardClick(card)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  handleCardClick(card);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Rút lá ${idx + 1} từ bộ bài`}
+            >
+              <FlyingCard
+                card={card}
+                isFlipped={false}
+                layoutId={`card-${card.id}`}
+              />
+            </motion.div>
+          ))}
+        </div>
+      );
+    }
+
     return (
       <div className={styles.deckContainer}>
-        {deck.map((card, idx) => {
-          // Calculate fan spread
-          const total = deck.length;
-          const offset = idx - total / 2;
-          const rotate = offset * 1.0; // Giảm góc xoay để bài không quá nghiêng
-          const x = offset * 2; // Thêm translateX để xòe bài sang hai bên
-          
-          const isPreviewed = previewedCardId === card.id;
-          
+        {visibleDeck.map((card, idx) => {
+          const total = visibleDeck.length;
+          const midpoint = (total - 1) / 2;
+          const offset = idx - midpoint;
+          const spreadX = total > 15 ? 18 : 24;
+          const rotate = offset * (total > 15 ? 1.4 : 1.8);
+          const arcY = Math.abs(offset) * 3;
+          const zIndex = 100 + (total - Math.abs(offset));
+
           return (
             <motion.div
               key={card.id}
               className={styles.deckCardWrapper}
               style={{
-                transformOrigin: "bottom center", // Tâm xoay ở đúng đáy bài để không bị tụt xuống
-                rotate: `${rotate}deg`,
-                x: x, // Xoè ngang
-                zIndex: isPreviewed ? 200 : idx
+                transformOrigin: 'bottom center',
+                rotate,
+                x: offset * spreadX,
+                y: arcY,
+                zIndex
               }}
-              animate={{
-                y: isPreviewed ? -40 : 0,
-                scale: isPreviewed ? 1.15 : 1,
-              }}
-              whileHover={{ y: isPreviewed ? -40 : -20, scale: isPreviewed ? 1.15 : 1.05 }}
+              whileHover={{ y: arcY - 18, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleCardClick(card)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  handleCardClick(card);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Rút lá ${idx + 1} từ bộ bài`}
             >
-              <FlyingCard 
+              <FlyingCard
                 card={card}
                 isFlipped={false}
                 layoutId={`card-${card.id}`}
@@ -122,26 +174,24 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
 
   return (
     <div className={styles.container}>
-      {/* 1. Context Area */}
       <div className={styles.contextArea}>
         <div className={styles.questionLabel}>Bạn đang hỏi</div>
-        <div className={styles.questionText}>"{question}"</div>
+        <div className={styles.questionText}>&ldquo;{question}&rdquo;</div>
       </div>
 
-      {/* 2. Reveal Area */}
       <div className={`${styles.revealArea} ${styles[`spread${spreadCount}`]}`}>
         {Array.from({ length: spreadCount }).map((_, idx) => {
           const pickedCard = pickedCards[idx];
-          
+
           return (
             <div key={idx} className={styles.slot}>
               <div className={styles.slotOutline}>
                 <span className={styles.slotIcon}>✦</span>
               </div>
-              
+
               {pickedCard && (
                 <div className={styles.revealedCardWrapper}>
-                  <FlyingCard 
+                  <FlyingCard
                     card={pickedCard}
                     isFlipped={true}
                     layoutId={`card-${pickedCard.id}`}
@@ -158,11 +208,15 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
         })}
       </div>
 
-      {/* 3. Progress & Status */}
       <div className={styles.statusArea}>
         {status === 'PICKING' && (
-          <div className={styles.progress}>
-            Đã chọn {pickedCards.length} / {spreadCount}
+          <div className={styles.progressGroup}>
+            <div className={styles.progress}>
+              Đã chọn {pickedCards.length} / {spreadCount}
+            </div>
+            <div className={styles.progressHint}>
+              Chạm một lần vào bất kỳ lá nào trong dãy bài để rút.
+            </div>
           </div>
         )}
         {status === 'INTERPRETING' && (
@@ -174,7 +228,7 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
         {status === 'ERROR' && (
           <div className={styles.errorArea}>
             <span className={styles.errorStar}>✦</span>
-            <div className={styles.errorMsg}>{error || "Thông điệp chưa thể hoàn thành. Hãy thử lại."}</div>
+            <div className={styles.errorMsg}>{error || 'Thông điệp chưa thể hoàn thành. Hãy thử lại.'}</div>
             <div className={styles.errorActions}>
               <button className={styles.retryBtn} onClick={onRetry}>Thử lại</button>
               <button className={styles.newBtn} onClick={onRestart}>Trải bài mới</button>
@@ -183,12 +237,11 @@ export const ReadingStage: React.FC<ReadingStageProps> = ({
         )}
       </div>
 
-      {/* 4. Deck Area */}
       <div className={styles.bottomDeckArea}>
-         {status === 'SHUFFLING' && (
-           <div className={styles.shufflingMsg}>Đang xáo bài...</div>
-         )}
-         {(status === 'PICKING' || status === 'INTERPRETING' || status === 'ERROR') && renderDeck()}
+        {status === 'SHUFFLING' && (
+          <div className={styles.shufflingMsg}>Đang xáo bài...</div>
+        )}
+        {(status === 'PICKING' || status === 'INTERPRETING' || status === 'ERROR') && renderDeck()}
       </div>
     </div>
   );
