@@ -1,0 +1,101 @@
+.deckArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instructions {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--accent-color);
+  animation: fadeIn 0.5s ease;
+}
+
+.cardsTable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: -20px; /* Overlap cards slightly */
+  margin-bottom: 30px;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+
+.cardWrapper {
+  margin: 0 -15px; /* Negative margin for fan effect */
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .cardWrapper {
+    margin: 0 -25px;
+  }
+}
+
+/* Shuffle animation */
+.shuffling .cardWrapper {
+  animation: shuffleAnim 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes shuffleAnim {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-20px) rotate(-5deg); z-index: 5; }
+  50% { transform: translateX(20px) rotate(5deg); z-index: 1; }
+  75% { transform: translateX(-10px) rotate(-2deg); z-index: 3; }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+.spreadContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  animation: fadeIn 0.8s ease;
+}
+
+@media (max-width: 480px) {
+  .spreadContainer {
+    gap: 10px;
+  }
+}
+
+.actionArea {
+  margin-top: 20px;
+  height: 60px;
+}
+
+.revealButton {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.revealButton:disabled {
+  background-color: #333;
+  color: #777;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.revealButton:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shuffling .cardWrapper {
+    animation: none;
+    opacity: 0.8;
+  }
+}

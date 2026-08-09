@@ -1,0 +1,58 @@
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  animation: fadeIn 1s ease;
+  min-height: 200px;
+}
+
+.sparkle {
+  font-size: 3rem;
+  color: var(--accent-color);
+  animation: floatSparkle 2s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+.pulseRing {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--accent-glow);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  z-index: 1;
+}
+
+.loadingText {
+  margin-top: 30px;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--text-color);
+  text-align: center;
+  animation: pulseGlow 3s infinite;
+  transition: opacity 0.5s ease;
+  min-height: 30px;
+}
+
+@keyframes floatSparkle {
+  0% { transform: translateY(0) rotate(0deg); text-shadow: 0 0 10px var(--accent-color); }
+  50% { transform: translateY(-10px) rotate(10deg); text-shadow: 0 0 30px var(--accent-color); }
+  100% { transform: translateY(0) rotate(0deg); text-shadow: 0 0 10px var(--accent-color); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 1; transform: scale(2.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    animation: none;
+  }
+  .pulseRing {
+    display: none;
+  }
+}

@@ -1,0 +1,161 @@
+.resultContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  animation: fadeIn 1s ease;
+  color: var(--text-color);
+}
+
+.header {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--accent-color);
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+.questionSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.questionLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.questionText {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #fff;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+  margin: 40px 0;
+}
+
+.subDivider {
+  height: 1px;
+  background-color: var(--card-border);
+  margin: 30px 0;
+  opacity: 0.5;
+}
+
+.cardResultRow {
+  margin-bottom: 20px;
+}
+
+.cardResultHeader {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.cardResultContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .cardResultContent {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.cardWrapper {
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.staticCard:hover {
+  transform: none; /* Disable hover effect in result view */
+}
+
+.cardTextInfo {
+  flex: 1;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.cardOrientation {
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.cardMeaning {
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.summaryText, .connectionText, .guidanceText {
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.reflectionBox {
+  background-color: var(--card-back);
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+  border-left: 4px solid var(--accent-color);
+}
+
+.reflectionLabel {
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.reflectionText {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.actionArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.restartButton {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.restartButton:hover {
+  background-color: var(--accent-glow);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
