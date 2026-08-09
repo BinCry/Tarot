@@ -7,6 +7,7 @@ export interface TarotCardData {
   arcana: string;
   suit: string;
   keywords: string[];
+  fortuneTelling?: string[];
   uprightMeaning: string;
   reversedMeaning: string;
 }
@@ -39,6 +40,12 @@ export interface InterpretationResult {
   connection: string;
   guidance: string;
   reflectionQuestion: string;
+  notice?: string;
+}
+
+export interface InterpretationErrorPayload {
+  error: string;
+  details?: string;
 }
 
 export type TarotAction = 

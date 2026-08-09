@@ -1,5 +1,12 @@
 import { useReducer, useRef } from 'react';
-import { TarotState, TarotAction, PickedCard, InterpretationResult } from '@/types/tarot';
+import {
+  TarotState,
+  TarotAction,
+  PickedCard,
+  InterpretationResult,
+  InterpretationErrorPayload,
+  TarotCardData
+} from '@/types/tarot';
 
 const initialState: TarotState = {
   status: 'WELCOME',
@@ -40,7 +47,7 @@ function tarotReducer(state: TarotState, action: TarotAction): TarotState {
   }
 }
 
-export function useTarotLogic(allCards: any[]) {
+export function useTarotLogic(allCards: TarotCardData[]) {
   const [state, dispatch] = useReducer(tarotReducer, initialState);
   const isFetching = useRef(false);
 
@@ -79,6 +86,7 @@ export function useTarotLogic(allCards: any[]) {
   const fetchInterpretation = async () => {
     if (isFetching.current) return;
     isFetching.current = true;
+
     try {
       const res = await fetch('/api/interpret', {
         method: 'POST',
@@ -89,12 +97,27 @@ export function useTarotLogic(allCards: any[]) {
         })
       });
 
-      if (!res.ok) throw new Error('Failed to fetch interpretation');
-      
+      if (!res.ok) {
+        let payload: InterpretationErrorPayload | null = null;
+
+        try {
+          payload = await res.json();
+        } catch {
+          payload = null;
+        }
+
+        if (payload?.details) {
+          console.error('Interpretation request failed:', payload.details);
+        }
+
+        throw new Error(payload?.error || 'Không thể lấy phần luận giải lúc này.');
+      }
+
       const data: InterpretationResult = await res.json();
       dispatch({ type: 'SET_INTERPRETATION', payload: data });
-    } catch (err: any) {
-      dispatch({ type: 'SET_ERROR', payload: err.message || 'Unknown error' });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Đã có lỗi không xác định.';
+      dispatch({ type: 'SET_ERROR', payload: message });
     } finally {
       isFetching.current = false;
     }

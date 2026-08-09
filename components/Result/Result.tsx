@@ -35,10 +35,19 @@ export const Result: React.FC<ResultProps> = ({ question, pickedCards, interpret
     >
       <motion.div className={styles.header} variants={itemVariants}>
         <div className={styles.eyebrow}>YOUR READING</div>
-        <h2 className={styles.question}>"{question}"</h2>
+        <h2 className={styles.question}>&ldquo;{question}&rdquo;</h2>
       </motion.div>
 
       <motion.div className={styles.divider} variants={itemVariants} />
+
+      {interpretation.notice && (
+        <>
+          <motion.div className={styles.noticeBox} variants={itemVariants}>
+            {interpretation.notice}
+          </motion.div>
+          <motion.div className={styles.divider} variants={itemVariants} />
+        </>
+      )}
 
       <motion.div className={styles.section} variants={itemVariants}>
         <h3 className={styles.sectionTitle}>TỔNG QUAN</h3>
@@ -100,7 +109,7 @@ export const Result: React.FC<ResultProps> = ({ question, pickedCards, interpret
 
       <motion.div className={styles.section} variants={itemVariants}>
         <h3 className={styles.sectionTitle}>GỢI Ý SUY NGẪM</h3>
-        <p className={styles.reflectionText}>"{interpretation.reflectionQuestion}"</p>
+        <p className={styles.reflectionText}>&ldquo;{interpretation.reflectionQuestion}&rdquo;</p>
       </motion.div>
       
       <motion.div className={styles.footer} variants={itemVariants}>

@@ -34,6 +34,16 @@
   width: 100%;
 }
 
+.noticeBox {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: #f0ddb0;
+  padding: 16px 18px;
+  border-radius: 14px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
 .section {
   margin-bottom: 24px;
 }
