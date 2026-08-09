@@ -24,29 +24,25 @@ export const FlyingCard: React.FC<FlyingCardProps> = ({
   onLayoutAnimationComplete,
   delayFlip = false
 }) => {
-  const [internalFlip, setInternalFlip] = useState(false);
+  const [delayedFlipReady, setDelayedFlipReady] = useState(false);
 
   // We use this to trigger the CSS flip only AFTER the layout animation (fly) settles.
   useEffect(() => {
-    if (isFlipped) {
-      if (delayFlip) {
-        // Just a small safety timeout if layout animation callback is missed
-        const timer = setTimeout(() => setInternalFlip(true), 400);
-        return () => clearTimeout(timer);
-      } else {
-        setInternalFlip(true);
-      }
-    } else {
-      setInternalFlip(false);
-    }
+    if (!isFlipped || !delayFlip) return;
+
+    // Safety timeout in case the shared-layout completion callback is skipped.
+    const timer = setTimeout(() => setDelayedFlipReady(true), 400);
+    return () => clearTimeout(timer);
   }, [isFlipped, delayFlip]);
+
+  const internalFlip = isFlipped && (!delayFlip || delayedFlipReady);
 
   const handleLayoutAnimationComplete = () => {
     if (onLayoutAnimationComplete) {
       onLayoutAnimationComplete();
     }
     if (isFlipped) {
-      setInternalFlip(true);
+      setDelayedFlipReady(true);
     }
   };
 
