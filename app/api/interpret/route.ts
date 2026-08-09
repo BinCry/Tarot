@@ -4,6 +4,8 @@ import tarotCards from '@/data/tarot-cards.json';
 import { getVietnameseCardContext, localizeTarotTerms } from '@/data/tarot-vi';
 import type { InterpretationResult, TarotCardData } from '@/types/tarot';
 
+export const maxDuration = 60;
+
 type RequestCard = {
   name: string;
   orientation: 'UPRIGHT' | 'REVERSED';
@@ -278,6 +280,10 @@ function getSpreadLabel(index: number, count: number) {
   return `lá ${index + 1}`;
 }
 
+function getMaxOutputTokens(cardCount: number) {
+  return Math.min(12_288, 4_096 + cardCount * 640);
+}
+
 function buildFallbackCardInterpretation(
   card: RequestCard,
   index: number,
@@ -387,9 +393,23 @@ Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu h
       model,
       contents: prompt,
       config: {
+        httpOptions: {
+          timeout: 45_000,
+          retryOptions: {
+            attempts: 2,
+            initialDelay: 0.5,
+            maxDelay: 1.5,
+            expBase: 2,
+            jitter: 0.3,
+            httpStatusCodes: [408, 429, 500, 502, 503, 504]
+          }
+        },
         systemInstruction,
-        temperature: 0.6,
-        maxOutputTokens: 2048,
+        ...(model.startsWith('gemini-3') ? {} : { temperature: 0.6 }),
+        ...(model.startsWith('gemini-2.5')
+          ? { thinkingConfig: { thinkingBudget: 512 } }
+          : {}),
+        maxOutputTokens: getMaxOutputTokens(requestedCards.length),
         responseMimeType: 'application/json',
         responseJsonSchema: INTERPRETATION_SCHEMA
       }
