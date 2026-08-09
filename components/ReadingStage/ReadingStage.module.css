@@ -1,9 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
-  padding: 0 16px;
+  padding: 0 16px 200px; /* Thêm padding-bottom để không bị che bởi Deck */
   animation: fadeIn 0.5s ease;
 }
 
@@ -164,17 +163,20 @@
 
 /* Deck Area */
 .bottomDeckArea {
-  flex: 1;
-  position: relative;
-  overflow: hidden; /* hide cards overflowing bottom */
-  min-height: 150px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 100;
+  pointer-events: none; /* Để click có thể xuyên qua các vùng trống */
 }
 
 .shufflingMsg {
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   color: #666;
   font-style: italic;
   letter-spacing: 2px;
@@ -182,7 +184,7 @@
 
 .deckContainer {
   position: absolute;
-  bottom: -40px; /* Push down slightly so bottom of cards is hidden */
+  bottom: -40px; /* Đẩy xuống để giấu phần dưới của lá bài */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -190,6 +192,7 @@
   height: 200px;
   display: flex;
   justify-content: center;
+  pointer-events: auto; /* Bật lại pointer-events cho các lá bài */
 }
 
 .deckCardWrapper {
