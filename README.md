@@ -1,4 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">ARCANA Tarot</h1>
+
+<p align="center">
+  Trải bài Tarot tương tác với luận giải tiếng Việt từ Gemini.
+</p>
+
+<p align="center">
+  <a href="https://nextjs.org/">
+    <img src="https://img.shields.io/badge/Next.js-16.3-000000?style=for-the-badge&amp;logo=nextdotjs&amp;logoColor=white" height="28" alt="Next.js 16.3" />
+  </a>
+  <a href="https://react.dev/">
+    <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=061A24" height="28" alt="React 19.2" />
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&amp;logo=typescript&amp;logoColor=white" height="28" alt="TypeScript 5" />
+  </a>
+  <a href="https://ai.google.dev/gemini-api/docs">
+    <img src="https://img.shields.io/badge/Gemini-3.6-4285F4?style=for-the-badge&amp;logo=googlegemini&amp;logoColor=white" height="28" alt="Gemini 3.6" />
+  </a>
+  <a href="https://motion.dev/">
+    <img src="https://img.shields.io/badge/Motion-13-FFF312?style=for-the-badge&amp;logo=framer&amp;logoColor=111111" height="28" alt="Motion 13" />
+  </a>
+  <a href="https://vercel.com/">
+    <img src="https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" height="28" alt="Deployed on Vercel" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://tarot.bincrydev.id.vn">Trải nghiệm phiên bản trực tuyến</a>
+</p>
 
 ## Getting Started
 
