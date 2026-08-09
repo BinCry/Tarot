@@ -7,6 +7,7 @@ import type { InterpretationResult, TarotCardData } from '@/types/tarot';
 export const maxDuration = 60;
 
 const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+const FALLBACK_GEMINI_MODEL = 'gemini-2.5-flash-lite';
 
 type RequestCard = {
   name: string;
@@ -409,6 +410,8 @@ export async function POST(req: Request) {
     );
   }
 
+  let attemptedModel = configuredModel;
+
   try {
     const ai = new GoogleGenAI({ apiKey });
     let activeModel = configuredModel;
@@ -436,13 +439,14 @@ Kết quả phải có đúng 5 trường: summary, cards, connection, guidance 
 `;
 
     const candidateModels = Array.from(
-      new Set([configuredModel, DEFAULT_GEMINI_MODEL])
+      new Set([configuredModel, DEFAULT_GEMINI_MODEL, FALLBACK_GEMINI_MODEL])
     );
     let response: GenerateContentResponse | undefined;
     let lastError: unknown;
 
     for (const candidateModel of candidateModels) {
       activeModel = candidateModel;
+      attemptedModel = candidateModel;
       responseFormat = 'schema';
 
       try {
@@ -535,13 +539,13 @@ Kết quả phải có đúng 5 trường: summary, cards, connection, guidance 
     console.error('API Interpretation Error:', {
       code: failure.code,
       status: failure.status,
-      model: configuredModel,
+      model: attemptedModel,
       details: details.slice(0, 1000)
     });
 
     return NextResponse.json(
       buildFallbackInterpretation(requestedCards, failure.message),
-      { headers: getAiHeaders('fallback', failure.code, configuredModel) }
+      { headers: getAiHeaders('fallback', failure.code, attemptedModel) }
     );
   }
 }
