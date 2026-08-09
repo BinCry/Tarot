@@ -64,7 +64,10 @@ const INTERPRETATION_SCHEMA = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    summary: { type: 'string' },
+    summary: {
+      type: 'string',
+      description: 'Tổng quan 100 đến 150 từ, trả lời trực tiếp câu hỏi và nêu mạch chính của toàn bộ trải bài.'
+    },
     cards: {
       type: 'array',
       minItems: 1,
@@ -73,14 +76,26 @@ const INTERPRETATION_SCHEMA = {
         additionalProperties: false,
         properties: {
           card: { type: 'string' },
-          interpretation: { type: 'string' }
+          interpretation: {
+            type: 'string',
+            description: 'Luận giải 90 đến 140 từ, gồm ý nghĩa lá, chiều xuôi hoặc ngược, vai trò vị trí và liên hệ cụ thể với câu hỏi.'
+          }
         },
         required: ['card', 'interpretation']
       }
     },
-    connection: { type: 'string' },
-    guidance: { type: 'string' },
-    reflectionQuestion: { type: 'string' }
+    connection: {
+      type: 'string',
+      description: 'Phân tích 120 đến 180 từ về sự bổ trợ, mâu thuẫn và tiến trình giữa các lá.'
+    },
+    guidance: {
+      type: 'string',
+      description: 'Lời khuyên 100 đến 150 từ, thực tế, có điều nên làm, điều nên tránh và không khẳng định số phận.'
+    },
+    reflectionQuestion: {
+      type: 'string',
+      description: 'Một câu hỏi suy ngẫm duy nhất, cụ thể và bám sát câu hỏi ban đầu.'
+    }
   },
   required: ['summary', 'cards', 'connection', 'guidance', 'reflectionQuestion']
 } as const;
@@ -504,7 +519,8 @@ Nguyên tắc:
 2. Dùng tiếng Việt tự nhiên, rõ ràng, ấm áp và có chiều sâu.
 3. Liên hệ trực tiếp đến câu hỏi của người dùng.
 4. Không bịa thông tin ngoài dữ liệu được cung cấp.
-5. Chỉ trả về JSON hợp lệ theo schema yêu cầu.
+5. Không viện dẫn sách, tác giả, nghiên cứu hoặc nguồn mà dữ liệu không cung cấp.
+6. Chỉ trả về JSON hợp lệ theo schema yêu cầu.
 `;
 
     const prompt = `
@@ -515,6 +531,7 @@ ${requestedCards.map((card, index) => buildCardContext(card, index, requestedCar
 
 Hãy tạo một bản luận giải chi tiết, mạch lạc, gắn sát câu hỏi và nhấn mạnh mối liên kết giữa các lá bài.
 Kết quả phải có đúng 5 trường: summary, cards, connection, guidance và reflectionQuestion. Mỗi phần tử trong cards phải có card và interpretation.
+Mỗi lá cần giải thích ý nghĩa cốt lõi, sắc thái xuôi/ngược, vai trò tại vị trí đó và biểu hiện có thể đối chiếu trong thực tế. Không lặp lại cùng một ý chỉ để kéo dài câu trả lời.
 `;
 
     const candidateModels = Array.from(
