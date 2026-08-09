@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, useRef } from 'react';
 import { TarotState, TarotAction, PickedCard, InterpretationResult } from '@/types/tarot';
 
 const initialState: TarotState = {
@@ -65,8 +65,11 @@ export function useTarotLogic(allCards: any[]) {
   }, [allCards]);
 
   const pickCard = (index: number) => dispatch({ type: 'PICK_CARD', payload: index });
+  const isFetching = useRef(false);
   
   const fetchInterpretation = async () => {
+    if (isFetching.current) return;
+    isFetching.current = true;
     try {
       const selectedCards = state.pickedIndices.map(idx => state.deck[idx]);
       const res = await fetch('/api/interpret', {
@@ -84,6 +87,8 @@ export function useTarotLogic(allCards: any[]) {
       dispatch({ type: 'SET_INTERPRETATION', payload: data });
     } catch (err: any) {
       dispatch({ type: 'SET_ERROR', payload: err.message || 'Unknown error' });
+    } finally {
+      isFetching.current = false;
     }
   };
 

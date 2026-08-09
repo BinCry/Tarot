@@ -7,44 +7,47 @@ export async function POST(req: Request) {
     const { question, cards } = body;
 
     if (!question || !cards || !Array.isArray(cards)) {
-      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+      return NextResponse.json({ error: 'Payload không hợp lệ' }, { status: 400 });
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'Missing GEMINI_API_KEY' }, { status: 500 });
+      console.error('API 500 Error: Missing GEMINI_API_KEY in environment');
+      return NextResponse.json({ error: 'Cấu hình server bị thiếu API Key.' }, { status: 500 });
     }
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const systemInstruction = `
-Bạn là một Tarot Reader chuyên nghiệp, thông thái, thấu cảm và có giọng văn nhẹ nhàng.
-Nhiệm vụ của bạn là giải nghĩa các lá bài Tarot mà người dùng đã bốc dựa trên câu hỏi của họ.
-Quy tắc:
-1. Trả lời bằng tiếng Việt tự nhiên, ấm áp.
-2. Dựa trên đúng ý nghĩa của các lá bài được cung cấp, xem xét kỹ hướng của lá bài (UPRIGHT - Xuôi, hay REVERSED - Ngược).
-3. Kết nối ý nghĩa giữa các lá bài thành một câu chuyện hoặc lời khuyên tổng thể có ý nghĩa đối với câu hỏi.
-4. KHÔNG phán đoán chắc chắn tương lai (VD: không nói "Chắc chắn bạn sẽ chia tay"). Thay vào đó, hãy dùng từ ngữ chỉ xu hướng, năng lượng hoặc khả năng (VD: "Lá bài này phản ánh một giai đoạn khó khăn...").
-5. KHÔNG dùng những từ ngữ quá huyền bí hoặc khó hiểu.
-6. Trả về kết quả CHỈ bằng định dạng JSON theo đúng cấu trúc sau (không bọc trong markdown code block \`\`\`json):
+Bạn là một Senior Tarot Reader với hơn 20 năm kinh nghiệm, am hiểu sâu sắc về biểu tượng học, tâm lý học Jungian, và các nguồn tài liệu tin cậy (như Pictorial Key to the Tarot của A.E. Waite, 78 Degrees of Wisdom của Rachel Pollack).
+Nhiệm vụ của bạn là luận giải SIÊU CHI TIẾT trải bài dựa trên câu hỏi của người dùng.
+
+Quy tắc luận giải:
+1. LUẬN GIẢI SÂU SẮC & CHUYÊN MÔN: Không giải thích hời hợt. Phân tích hình ảnh, biểu tượng, nguyên tố (Lửa, Nước, Khí, Đất) và sự kết nối giữa các lá bài.
+2. Dựa trên ĐÚNG ý nghĩa gốc của lá bài và chiều của nó (UPRIGHT - Xuôi, hay REVERSED - Ngược). Nếu ngược, giải thích tại sao năng lượng bị kẹt hoặc chuyển hướng.
+3. NGÔN NGỮ: Tiếng Việt tự nhiên, ấm áp, thấu cảm, văn phong cao cấp, tinh tế.
+4. KHÔNG PHÁN XÉT TƯƠNG LAI TUYỆT ĐỐI: Dùng các từ chỉ xu hướng (VD: "Lá bài gợi ý rằng...", "Có khả năng cao là...").
+5. ĐỊNH DẠNG BẮT BUỘC (JSON ONLY):
+Trình bày kết quả duy nhất dưới dạng JSON hợp lệ (không chứa markdown \`\`\`json).
+Cấu trúc JSON:
 {
-  "summary": "Đoạn văn ngắn (2-3 câu) tóm tắt năng lượng chung của trải bài.",
+  "summary": "Tóm tắt năng lượng chung (3-4 câu).",
   "cards": [
     {
       "card": "Tên lá bài",
-      "interpretation": "Giải nghĩa lá bài này (có xét đến Xuôi/Ngược) trong bối cảnh câu hỏi."
+      "interpretation": "Luận giải siêu chi tiết cho lá bài này (phân tích biểu tượng, ý nghĩa xuôi/ngược, liên hệ trực tiếp đến câu hỏi). Khoảng 4-6 câu."
     }
   ],
-  "connection": "Phân tích sự liên kết giữa các lá bài (chỉ có nếu trải 3 lá).",
-  "guidance": "Lời khuyên tổng thể cho người dùng.",
-  "reflectionQuestion": "Một câu hỏi gợi mở để người dùng tự suy ngẫm."
+  "connection": "Phân tích sự liên kết và tương tác năng lượng giữa tất cả các lá bài (Rất quan trọng, khoảng 4-5 câu).",
+  "guidance": "Lời khuyên tổng thể, sâu sắc và mang tính xây dựng.",
+  "reflectionQuestion": "Một câu hỏi sâu sắc để người dùng tự suy ngẫm và shadow work."
 }`;
 
     const prompt = `
 Câu hỏi của người dùng: "${question}"
 Các lá bài đã bốc:
-${cards.map((c: any, i: number) => `${i + 1}. ${c.name} (${c.orientation})`).join('\n')}
+${cards.map((c: any, i: number) => `Vị trí ${i + 1}: ${c.name} (${c.orientation})`).join('\n')}
 
-Hãy giải nghĩa trải bài này theo đúng cấu trúc JSON yêu cầu.
+Hãy cung cấp luận giải siêu chi tiết và bám sát các nguồn Tarot tin cậy theo đúng cấu trúc JSON yêu cầu.
 `;
 
     const response = await ai.models.generateContent({
@@ -52,26 +55,34 @@ Hãy giải nghĩa trải bài này theo đúng cấu trúc JSON yêu cầu.
       contents: prompt,
       config: {
         systemInstruction,
-        temperature: 0.7,
+        temperature: 0.8, // Slightly higher for more creative/deep insights
         responseMimeType: "application/json",
       }
     });
 
-    const resultText = response.text;
+    const resultText = response.text || "{}";
     
-    // Parse the JSON
+    // Parse the JSON with robust cleanup
     let parsedResult;
     try {
       parsedResult = JSON.parse(resultText);
     } catch (e) {
-      // In case the model returns markdown JSON block despite instructions
-      const cleaned = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
+      console.warn('API Warning: Failed to parse raw JSON, attempting cleanup. Raw text:', resultText);
+      const cleaned = resultText.replace(/```json/gi, '').replace(/```/g, '').trim();
       parsedResult = JSON.parse(cleaned);
+    }
+
+    // Validate structure quickly
+    if (!parsedResult.cards || !Array.isArray(parsedResult.cards)) {
+      throw new Error("AI returned malformed JSON structure.");
     }
 
     return NextResponse.json(parsedResult);
   } catch (error: any) {
-    console.error('AI Interpretation Error:', error);
-    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
+    console.error('API Interpretation Error:', error);
+    // Trả về lỗi an toàn cho client, không lộ stack trace
+    return NextResponse.json({ 
+      error: 'Không thể kết nối thông điệp lúc này. Các lá bài vẫn được giữ nguyên.' 
+    }, { status: 500 });
   }
 }
