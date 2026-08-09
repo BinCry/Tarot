@@ -2,11 +2,10 @@
   {
     "id": 1,
     "name": "The Fool",
-    "image": "/cards/major-0.jpg",
+    "image": "/cards/ar00.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Fool.",
@@ -15,11 +14,10 @@
   {
     "id": 2,
     "name": "The Magician",
-    "image": "/cards/major-1.jpg",
+    "image": "/cards/ar01.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Magician.",
@@ -28,11 +26,10 @@
   {
     "id": 3,
     "name": "The High Priestess",
-    "image": "/cards/major-2.jpg",
+    "image": "/cards/ar02.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The High Priestess.",
@@ -41,11 +38,10 @@
   {
     "id": 4,
     "name": "The Empress",
-    "image": "/cards/major-3.jpg",
+    "image": "/cards/ar03.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Empress.",
@@ -54,11 +50,10 @@
   {
     "id": 5,
     "name": "The Emperor",
-    "image": "/cards/major-4.jpg",
+    "image": "/cards/ar04.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Emperor.",
@@ -67,11 +62,10 @@
   {
     "id": 6,
     "name": "The Hierophant",
-    "image": "/cards/major-5.jpg",
+    "image": "/cards/ar05.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Hierophant.",
@@ -80,11 +74,10 @@
   {
     "id": 7,
     "name": "The Lovers",
-    "image": "/cards/major-6.jpg",
+    "image": "/cards/ar06.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Lovers.",
@@ -93,11 +86,10 @@
   {
     "id": 8,
     "name": "The Chariot",
-    "image": "/cards/major-7.jpg",
+    "image": "/cards/ar07.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Chariot.",
@@ -106,11 +98,10 @@
   {
     "id": 9,
     "name": "Strength",
-    "image": "/cards/major-8.jpg",
+    "image": "/cards/ar08.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Strength.",
@@ -119,11 +110,10 @@
   {
     "id": 10,
     "name": "The Hermit",
-    "image": "/cards/major-9.jpg",
+    "image": "/cards/ar09.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Hermit.",
@@ -132,11 +122,10 @@
   {
     "id": 11,
     "name": "Wheel of Fortune",
-    "image": "/cards/major-10.jpg",
+    "image": "/cards/ar10.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Wheel of Fortune.",
@@ -145,11 +134,10 @@
   {
     "id": 12,
     "name": "Justice",
-    "image": "/cards/major-11.jpg",
+    "image": "/cards/ar11.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Justice.",
@@ -158,11 +146,10 @@
   {
     "id": 13,
     "name": "The Hanged Man",
-    "image": "/cards/major-12.jpg",
+    "image": "/cards/ar12.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Hanged Man.",
@@ -171,11 +158,10 @@
   {
     "id": 14,
     "name": "Death",
-    "image": "/cards/major-13.jpg",
+    "image": "/cards/ar13.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Death.",
@@ -184,11 +170,10 @@
   {
     "id": 15,
     "name": "Temperance",
-    "image": "/cards/major-14.jpg",
+    "image": "/cards/ar14.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Temperance.",
@@ -197,11 +182,10 @@
   {
     "id": 16,
     "name": "The Devil",
-    "image": "/cards/major-15.jpg",
+    "image": "/cards/ar15.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Devil.",
@@ -210,11 +194,10 @@
   {
     "id": 17,
     "name": "The Tower",
-    "image": "/cards/major-16.jpg",
+    "image": "/cards/ar16.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Tower.",
@@ -223,11 +206,10 @@
   {
     "id": 18,
     "name": "The Star",
-    "image": "/cards/major-17.jpg",
+    "image": "/cards/ar17.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Star.",
@@ -236,11 +218,10 @@
   {
     "id": 19,
     "name": "The Moon",
-    "image": "/cards/major-18.jpg",
+    "image": "/cards/ar18.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Moon.",
@@ -249,11 +230,10 @@
   {
     "id": 20,
     "name": "The Sun",
-    "image": "/cards/major-19.jpg",
+    "image": "/cards/ar19.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The Sun.",
@@ -262,11 +242,10 @@
   {
     "id": 21,
     "name": "Judgement",
-    "image": "/cards/major-20.jpg",
+    "image": "/cards/ar20.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Judgement.",
@@ -275,11 +254,10 @@
   {
     "id": 22,
     "name": "The World",
-    "image": "/cards/major-21.jpg",
+    "image": "/cards/ar21.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của The World.",
@@ -288,11 +266,10 @@
   {
     "id": 23,
     "name": "Ace of Wands",
-    "image": "/cards/wands-1.jpg",
+    "image": "/cards/wa01.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ace of Wands.",
@@ -301,11 +278,10 @@
   {
     "id": 24,
     "name": "Two of Wands",
-    "image": "/cards/wands-2.jpg",
+    "image": "/cards/wa02.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Two of Wands.",
@@ -314,11 +290,10 @@
   {
     "id": 25,
     "name": "Three of Wands",
-    "image": "/cards/wands-3.jpg",
+    "image": "/cards/wa03.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Three of Wands.",
@@ -327,11 +302,10 @@
   {
     "id": 26,
     "name": "Four of Wands",
-    "image": "/cards/wands-4.jpg",
+    "image": "/cards/wa04.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Four of Wands.",
@@ -340,11 +314,10 @@
   {
     "id": 27,
     "name": "Five of Wands",
-    "image": "/cards/wands-5.jpg",
+    "image": "/cards/wa05.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Five of Wands.",
@@ -353,11 +326,10 @@
   {
     "id": 28,
     "name": "Six of Wands",
-    "image": "/cards/wands-6.jpg",
+    "image": "/cards/wa06.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Six of Wands.",
@@ -366,11 +338,10 @@
   {
     "id": 29,
     "name": "Seven of Wands",
-    "image": "/cards/wands-7.jpg",
+    "image": "/cards/wa07.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Seven of Wands.",
@@ -379,11 +350,10 @@
   {
     "id": 30,
     "name": "Eight of Wands",
-    "image": "/cards/wands-8.jpg",
+    "image": "/cards/wa08.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Eight of Wands.",
@@ -392,11 +362,10 @@
   {
     "id": 31,
     "name": "Nine of Wands",
-    "image": "/cards/wands-9.jpg",
+    "image": "/cards/wa09.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Nine of Wands.",
@@ -405,11 +374,10 @@
   {
     "id": 32,
     "name": "Ten of Wands",
-    "image": "/cards/wands-10.jpg",
+    "image": "/cards/wa10.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ten of Wands.",
@@ -418,11 +386,10 @@
   {
     "id": 33,
     "name": "Page of Wands",
-    "image": "/cards/wands-11.jpg",
+    "image": "/cards/wa11.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Page of Wands.",
@@ -431,11 +398,10 @@
   {
     "id": 34,
     "name": "Knight of Wands",
-    "image": "/cards/wands-12.jpg",
+    "image": "/cards/wa12.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Knight of Wands.",
@@ -444,11 +410,10 @@
   {
     "id": 35,
     "name": "Queen of Wands",
-    "image": "/cards/wands-13.jpg",
+    "image": "/cards/wa13.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Queen of Wands.",
@@ -457,11 +422,10 @@
   {
     "id": 36,
     "name": "King of Wands",
-    "image": "/cards/wands-14.jpg",
+    "image": "/cards/wa14.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của King of Wands.",
@@ -470,11 +434,10 @@
   {
     "id": 37,
     "name": "Ace of Cups",
-    "image": "/cards/cups-1.jpg",
+    "image": "/cards/cu01.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ace of Cups.",
@@ -483,11 +446,10 @@
   {
     "id": 38,
     "name": "Two of Cups",
-    "image": "/cards/cups-2.jpg",
+    "image": "/cards/cu02.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Two of Cups.",
@@ -496,11 +458,10 @@
   {
     "id": 39,
     "name": "Three of Cups",
-    "image": "/cards/cups-3.jpg",
+    "image": "/cards/cu03.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Three of Cups.",
@@ -509,11 +470,10 @@
   {
     "id": 40,
     "name": "Four of Cups",
-    "image": "/cards/cups-4.jpg",
+    "image": "/cards/cu04.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Four of Cups.",
@@ -522,11 +482,10 @@
   {
     "id": 41,
     "name": "Five of Cups",
-    "image": "/cards/cups-5.jpg",
+    "image": "/cards/cu05.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Five of Cups.",
@@ -535,11 +494,10 @@
   {
     "id": 42,
     "name": "Six of Cups",
-    "image": "/cards/cups-6.jpg",
+    "image": "/cards/cu06.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Six of Cups.",
@@ -548,11 +506,10 @@
   {
     "id": 43,
     "name": "Seven of Cups",
-    "image": "/cards/cups-7.jpg",
+    "image": "/cards/cu07.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Seven of Cups.",
@@ -561,11 +518,10 @@
   {
     "id": 44,
     "name": "Eight of Cups",
-    "image": "/cards/cups-8.jpg",
+    "image": "/cards/cu08.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Eight of Cups.",
@@ -574,11 +530,10 @@
   {
     "id": 45,
     "name": "Nine of Cups",
-    "image": "/cards/cups-9.jpg",
+    "image": "/cards/cu09.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Nine of Cups.",
@@ -587,11 +542,10 @@
   {
     "id": 46,
     "name": "Ten of Cups",
-    "image": "/cards/cups-10.jpg",
+    "image": "/cards/cu10.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ten of Cups.",
@@ -600,11 +554,10 @@
   {
     "id": 47,
     "name": "Page of Cups",
-    "image": "/cards/cups-11.jpg",
+    "image": "/cards/cu11.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Page of Cups.",
@@ -613,11 +566,10 @@
   {
     "id": 48,
     "name": "Knight of Cups",
-    "image": "/cards/cups-12.jpg",
+    "image": "/cards/cu12.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Knight of Cups.",
@@ -626,11 +578,10 @@
   {
     "id": 49,
     "name": "Queen of Cups",
-    "image": "/cards/cups-13.jpg",
+    "image": "/cards/cu13.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Queen of Cups.",
@@ -639,11 +590,10 @@
   {
     "id": 50,
     "name": "King of Cups",
-    "image": "/cards/cups-14.jpg",
+    "image": "/cards/cu14.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của King of Cups.",
@@ -652,11 +602,10 @@
   {
     "id": 51,
     "name": "Ace of Swords",
-    "image": "/cards/swords-1.jpg",
+    "image": "/cards/sw01.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ace of Swords.",
@@ -665,11 +614,10 @@
   {
     "id": 52,
     "name": "Two of Swords",
-    "image": "/cards/swords-2.jpg",
+    "image": "/cards/sw02.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Two of Swords.",
@@ -678,11 +626,10 @@
   {
     "id": 53,
     "name": "Three of Swords",
-    "image": "/cards/swords-3.jpg",
+    "image": "/cards/sw03.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Three of Swords.",
@@ -691,11 +638,10 @@
   {
     "id": 54,
     "name": "Four of Swords",
-    "image": "/cards/swords-4.jpg",
+    "image": "/cards/sw04.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Four of Swords.",
@@ -704,11 +650,10 @@
   {
     "id": 55,
     "name": "Five of Swords",
-    "image": "/cards/swords-5.jpg",
+    "image": "/cards/sw05.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Five of Swords.",
@@ -717,11 +662,10 @@
   {
     "id": 56,
     "name": "Six of Swords",
-    "image": "/cards/swords-6.jpg",
+    "image": "/cards/sw06.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Six of Swords.",
@@ -730,11 +674,10 @@
   {
     "id": 57,
     "name": "Seven of Swords",
-    "image": "/cards/swords-7.jpg",
+    "image": "/cards/sw07.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Seven of Swords.",
@@ -743,11 +686,10 @@
   {
     "id": 58,
     "name": "Eight of Swords",
-    "image": "/cards/swords-8.jpg",
+    "image": "/cards/sw08.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Eight of Swords.",
@@ -756,11 +698,10 @@
   {
     "id": 59,
     "name": "Nine of Swords",
-    "image": "/cards/swords-9.jpg",
+    "image": "/cards/sw09.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Nine of Swords.",
@@ -769,11 +710,10 @@
   {
     "id": 60,
     "name": "Ten of Swords",
-    "image": "/cards/swords-10.jpg",
+    "image": "/cards/sw10.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ten of Swords.",
@@ -782,11 +722,10 @@
   {
     "id": 61,
     "name": "Page of Swords",
-    "image": "/cards/swords-11.jpg",
+    "image": "/cards/sw11.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Page of Swords.",
@@ -795,11 +734,10 @@
   {
     "id": 62,
     "name": "Knight of Swords",
-    "image": "/cards/swords-12.jpg",
+    "image": "/cards/sw12.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Knight of Swords.",
@@ -808,11 +746,10 @@
   {
     "id": 63,
     "name": "Queen of Swords",
-    "image": "/cards/swords-13.jpg",
+    "image": "/cards/sw13.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Queen of Swords.",
@@ -821,11 +758,10 @@
   {
     "id": 64,
     "name": "King of Swords",
-    "image": "/cards/swords-14.jpg",
+    "image": "/cards/sw14.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của King of Swords.",
@@ -834,11 +770,10 @@
   {
     "id": 65,
     "name": "Ace of Pentacles",
-    "image": "/cards/pentacles-1.jpg",
+    "image": "/cards/pe01.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ace of Pentacles.",
@@ -847,11 +782,10 @@
   {
     "id": 66,
     "name": "Two of Pentacles",
-    "image": "/cards/pentacles-2.jpg",
+    "image": "/cards/pe02.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Two of Pentacles.",
@@ -860,11 +794,10 @@
   {
     "id": 67,
     "name": "Three of Pentacles",
-    "image": "/cards/pentacles-3.jpg",
+    "image": "/cards/pe03.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Three of Pentacles.",
@@ -873,11 +806,10 @@
   {
     "id": 68,
     "name": "Four of Pentacles",
-    "image": "/cards/pentacles-4.jpg",
+    "image": "/cards/pe04.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Four of Pentacles.",
@@ -886,11 +818,10 @@
   {
     "id": 69,
     "name": "Five of Pentacles",
-    "image": "/cards/pentacles-5.jpg",
+    "image": "/cards/pe05.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Five of Pentacles.",
@@ -899,11 +830,10 @@
   {
     "id": 70,
     "name": "Six of Pentacles",
-    "image": "/cards/pentacles-6.jpg",
+    "image": "/cards/pe06.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Six of Pentacles.",
@@ -912,11 +842,10 @@
   {
     "id": 71,
     "name": "Seven of Pentacles",
-    "image": "/cards/pentacles-7.jpg",
+    "image": "/cards/pe07.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Seven of Pentacles.",
@@ -925,11 +854,10 @@
   {
     "id": 72,
     "name": "Eight of Pentacles",
-    "image": "/cards/pentacles-8.jpg",
+    "image": "/cards/pe08.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Eight of Pentacles.",
@@ -938,11 +866,10 @@
   {
     "id": 73,
     "name": "Nine of Pentacles",
-    "image": "/cards/pentacles-9.jpg",
+    "image": "/cards/pe09.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Nine of Pentacles.",
@@ -951,11 +878,10 @@
   {
     "id": 74,
     "name": "Ten of Pentacles",
-    "image": "/cards/pentacles-10.jpg",
+    "image": "/cards/pe10.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Ten of Pentacles.",
@@ -964,11 +890,10 @@
   {
     "id": 75,
     "name": "Page of Pentacles",
-    "image": "/cards/pentacles-11.jpg",
+    "image": "/cards/pe11.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Page of Pentacles.",
@@ -977,11 +902,10 @@
   {
     "id": 76,
     "name": "Knight of Pentacles",
-    "image": "/cards/pentacles-12.jpg",
+    "image": "/cards/pe12.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Knight of Pentacles.",
@@ -990,11 +914,10 @@
   {
     "id": 77,
     "name": "Queen of Pentacles",
-    "image": "/cards/pentacles-13.jpg",
+    "image": "/cards/pe13.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của Queen of Pentacles.",
@@ -1003,11 +926,10 @@
   {
     "id": 78,
     "name": "King of Pentacles",
-    "image": "/cards/pentacles-14.jpg",
+    "image": "/cards/pe14.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
-      "...",
       "..."
     ],
     "uprightMeaning": "Ý nghĩa xuôi của King of Pentacles.",

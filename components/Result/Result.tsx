@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Result.module.css';
-import { InterpretationResult, PickedCard } from '@/types/tarot';
-import { TarotCard } from '../TarotCard/TarotCard';
+import { PickedCard, InterpretationResult } from '@/types/tarot';
+import { motion, Variants } from 'framer-motion';
 
 interface ResultProps {
   question: string;
@@ -11,81 +11,104 @@ interface ResultProps {
 }
 
 export const Result: React.FC<ResultProps> = ({ question, pickedCards, interpretation, onRestart }) => {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <div className={styles.resultContainer}>
-      <div className={styles.header}>YOUR READING</div>
-      
-      {question && (
-        <div className={styles.questionSection}>
-          <div className={styles.questionLabel}>Câu hỏi của bạn</div>
-          <div className={styles.questionText}>"{question}"</div>
-        </div>
-      )}
-      
-      <div className={styles.divider} />
-      
-      <div className={styles.cardsSection}>
-        {pickedCards.map((card, idx) => {
-          const meaning = interpretation.cards.find(c => c.card === card.name);
+    <motion.div 
+      className={styles.container}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div className={styles.header} variants={itemVariants}>
+        <div className={styles.eyebrow}>YOUR READING</div>
+        <h2 className={styles.question}>"{question}"</h2>
+      </motion.div>
+
+      <motion.div className={styles.divider} variants={itemVariants} />
+
+      <motion.div className={styles.section} variants={itemVariants}>
+        <h3 className={styles.sectionTitle}>TỔNG QUAN</h3>
+        <p className={styles.bodyText}>{interpretation.summary}</p>
+      </motion.div>
+
+      <motion.div className={styles.divider} variants={itemVariants} />
+
+      <div className={styles.cardsList}>
+        {interpretation.cards.map((cardData, idx) => {
+          // Attempt to match the interpreted card with the picked card to show the image
+          const pickedCard = pickedCards[idx];
+          
           return (
-            <div key={idx} className={styles.cardResultRow}>
-              <div className={styles.cardResultHeader}>CARD {idx + 1}</div>
-              <div className={styles.cardResultContent}>
-                <div className={styles.cardWrapper}>
-                  <TarotCard
-                    name={card.name}
-                    image={card.image}
-                    isFlipped={true}
-                    orientation={card.orientation}
-                    className={styles.staticCard}
-                  />
-                </div>
-                <div className={styles.cardTextInfo}>
-                  <h3 className={styles.cardTitle}>{card.name}</h3>
-                  <div className={styles.cardOrientation}>
-                    {card.orientation === 'UPRIGHT' ? 'Xuôi (Upright)' : 'Ngược (Reversed)'}
+            <motion.div key={idx} className={styles.cardDetail} variants={itemVariants}>
+              <div className={styles.cardVisual}>
+                {pickedCard ? (
+                  <div className={styles.imageWrapper}>
+                    <img 
+                      src={pickedCard.image} 
+                      alt={pickedCard.name} 
+                      className={styles.cardImage}
+                      style={{
+                        transform: pickedCard.orientation === 'REVERSED' ? 'rotate(180deg)' : 'none'
+                      }}
+                    />
                   </div>
-                  <p className={styles.cardMeaning}>
-                    {meaning ? meaning.interpretation : (card.orientation === 'UPRIGHT' ? card.uprightMeaning : card.reversedMeaning)}
-                  </p>
-                </div>
+                ) : (
+                  <div className={styles.imagePlaceholder}>✦</div>
+                )}
               </div>
-              {idx < pickedCards.length - 1 && <div className={styles.subDivider} />}
-            </div>
+              <div className={styles.cardContent}>
+                <h4 className={styles.cardName}>{cardData.card}</h4>
+                <div className={styles.cardOrientation}>
+                  {pickedCard?.orientation === 'UPRIGHT' ? 'Xuôi' : 'Ngược'}
+                </div>
+                <p className={styles.bodyText}>{cardData.interpretation}</p>
+              </div>
+            </motion.div>
           );
         })}
       </div>
 
-      <div className={styles.divider} />
+      <motion.div className={styles.divider} variants={itemVariants} />
 
-      <div className={styles.summarySection}>
-        <h3 className={styles.sectionTitle}>THÔNG ĐIỆP CHUNG</h3>
-        <p className={styles.summaryText}>{interpretation.summary}</p>
-        
-        {interpretation.connection && (
-          <p className={styles.connectionText}>{interpretation.connection}</p>
-        )}
-      </div>
+      <motion.div className={styles.section} variants={itemVariants}>
+        <h3 className={styles.sectionTitle}>SỰ KẾT NỐI & TƯƠNG TÁC</h3>
+        <p className={styles.bodyText}>{interpretation.connection}</p>
+      </motion.div>
 
-      <div className={styles.divider} />
+      <motion.div className={styles.divider} variants={itemVariants} />
 
-      <div className={styles.guidanceSection}>
-        <h3 className={styles.sectionTitle}>GỢI Ý & LỜI KHUYÊN</h3>
-        <p className={styles.guidanceText}>{interpretation.guidance}</p>
-        
-        {interpretation.reflectionQuestion && (
-          <div className={styles.reflectionBox}>
-            <div className={styles.reflectionLabel}>Câu hỏi suy ngẫm dành cho bạn:</div>
-            <div className={styles.reflectionText}>{interpretation.reflectionQuestion}</div>
-          </div>
-        )}
-      </div>
+      <motion.div className={styles.section} variants={itemVariants}>
+        <h3 className={styles.sectionTitle}>LỜI KHUYÊN DÀNH CHO BẠN</h3>
+        <p className={styles.bodyText}>{interpretation.guidance}</p>
+      </motion.div>
 
-      <div className={styles.actionArea}>
-        <button className={styles.restartButton} onClick={onRestart}>
-          Bốc bài lại
+      <motion.div className={styles.divider} variants={itemVariants} />
+
+      <motion.div className={styles.section} variants={itemVariants}>
+        <h3 className={styles.sectionTitle}>GỢI Ý SUY NGẪM</h3>
+        <p className={styles.reflectionText}>"{interpretation.reflectionQuestion}"</p>
+      </motion.div>
+      
+      <motion.div className={styles.footer} variants={itemVariants}>
+        <p className={styles.disclaimer}>Tarot được sử dụng như một công cụ gợi mở và suy ngẫm.</p>
+        <button className={styles.restartBtn} onClick={onRestart}>
+          Trải bài mới
         </button>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

@@ -1,0 +1,208 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 0 16px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Context Area */
+.contextArea {
+  text-align: center;
+  margin: 16px 0 24px;
+}
+.questionLabel {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.questionText {
+  font-size: 1.1rem;
+  color: #fff;
+  font-style: italic;
+  font-family: var(--font-serif);
+  padding: 0 20px;
+}
+
+/* Reveal Area */
+.revealArea {
+  display: grid;
+  gap: 12px;
+  justify-content: center;
+  margin: 0 auto 32px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.spread1 { grid-template-columns: minmax(120px, 180px); }
+.spread3 { grid-template-columns: repeat(3, minmax(80px, 160px)); }
+.spread6 { grid-template-columns: repeat(3, minmax(70px, 120px)); }
+.spread12 { grid-template-columns: repeat(4, minmax(60px, 90px)); }
+
+.slot {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/3.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slotOutline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 24px; /* leave space for label */
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slotIcon {
+  color: rgba(212, 175, 55, 0.2);
+  font-size: 1.5rem;
+}
+
+.revealedCardWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  z-index: 10;
+}
+
+.slotLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #a0a0a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status Area */
+.statusArea {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.progress {
+  font-size: 0.9rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.loadingArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulsingStar {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  animation: pulse 1.5s infinite alternate ease-in-out;
+}
+
+.loadingText {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+}
+
+@keyframes pulse {
+  from { opacity: 0.4; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px var(--accent-color); }
+}
+
+/* Error */
+.errorArea {
+  text-align: center;
+}
+.errorStar {
+  color: #ff6b6b;
+  font-size: 1.5rem;
+}
+.errorMsg {
+  color: #e5e5e5;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+.errorActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.retryBtn, .newBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.retryBtn {
+  background: var(--accent-color);
+  color: #000;
+}
+.newBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* Deck Area */
+.bottomDeckArea {
+  flex: 1;
+  position: relative;
+  overflow: hidden; /* hide cards overflowing bottom */
+  min-height: 150px;
+}
+
+.shufflingMsg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-style: italic;
+  letter-spacing: 2px;
+}
+
+.deckContainer {
+  position: absolute;
+  bottom: -40px; /* Push down slightly so bottom of cards is hidden */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.deckCardWrapper {
+  position: absolute;
+  width: 60px;
+  height: 90px;
+  bottom: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .deckCardWrapper {
+    width: 80px;
+    height: 120px;
+  }
+}

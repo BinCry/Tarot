@@ -3,21 +3,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { useTarotLogic } from '@/hooks/useTarotLogic';
-import { TarotDeck } from '@/components/TarotDeck/TarotDeck';
-import { AILoading } from '@/components/AILoading/AILoading';
+import { ReadingStage } from '@/components/ReadingStage/ReadingStage';
 import { Result } from '@/components/Result/Result';
+import { PickedCard } from '@/types/tarot';
 
 export default function Home() {
   const [cardsData, setCardsData] = useState<any[]>([]);
   const tarot = useTarotLogic(cardsData);
-  const { state, setQuestion, setSpreadCount, startReading, pickCard, revealCards, fetchInterpretation, restart, getPickedCards } = tarot;
+  const { state, setQuestion, setSpreadCount, startReading, pickCard, startInterpretation, restart } = tarot;
 
   useEffect(() => {
-    // In a real app this could be fetched from an API or imported directly
-    // Since we're in Next.js App Router and this is a client component, 
-    // importing the JSON is easiest if it's in the app directory, but since it's in data/ 
-    // we can either fetch it or move it to a place where we can import it.
-    // Let's dynamically import it to keep it simple.
     import('../data/tarot-cards.json')
       .then(module => setCardsData(module.default))
       .catch(err => console.error("Failed to load tarot data", err));
@@ -31,47 +26,47 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <h1 className={styles.logo}>✦ Arcana</h1>
+        <h1 className={styles.logo}>✦ ARCANA</h1>
       </header>
 
       <div className={styles.content}>
-        {/* WELCOME / QUESTION_READY State */}
-        {(state.status === 'WELCOME' || state.status === 'QUESTION_READY') && (
-          <div className={styles.welcomeSection}>
-            <h2 className={styles.title}>Tìm kiếm câu trả lời từ vũ trụ</h2>
+        {/* Màn hình nhập câu hỏi ban đầu */}
+        {(state.status === 'WELCOME' || (state.status === 'ERROR' && state.pickedCards.length === 0)) && (
+          <div className={styles.questionScreen}>
+            <div className={styles.eyebrow}>AI TAROT READING</div>
+            <h2 className={styles.title}>Hôm nay bạn muốn hỏi điều gì?</h2>
+            <p className={styles.description}>Hãy tập trung vào một câu hỏi và để những lá bài gợi mở một góc nhìn mới.</p>
+            
             <textarea
               className={styles.questionInput}
-              placeholder="Mối quan hệ hiện tại của mình sẽ phát triển như thế nào?"
+              placeholder="Ví dụ: Mình nên nhìn nhận mối quan hệ hiện tại như thế nào?"
               value={state.question}
               onChange={(e) => setQuestion(e.target.value)}
               maxLength={500}
-              rows={4}
+              rows={3}
             />
             
             <div className={styles.spreadSelector}>
-              <div className={styles.spreadLabel}>Chọn kiểu trải bài:</div>
-              <div className={styles.spreadOptions}>
-                <button 
-                  className={`${styles.spreadBtn} ${state.spreadCount === 1 ? styles.active : ''}`}
-                  onClick={() => setSpreadCount(1)}
+              {[
+                { count: 1, label: '1 lá', desc: 'Nhanh • Một thông điệp' },
+                { count: 3, label: '3 lá', desc: 'Tình huống • Thử thách • Gợi ý' },
+                { count: 6, label: '6 lá', desc: 'Chi tiết • Đa chiều' },
+                { count: 12, label: '12 lá', desc: 'Tổng quan • Chuyên sâu' }
+              ].map(opt => (
+                <div 
+                  key={opt.count}
+                  className={`${styles.spreadOption} ${state.spreadCount === opt.count ? styles.active : ''}`}
+                  onClick={() => setSpreadCount(opt.count)}
                 >
-                  1 Lá
-                </button>
-                <button 
-                  className={`${styles.spreadBtn} ${state.spreadCount === 3 ? styles.active : ''}`}
-                  onClick={() => setSpreadCount(3)}
-                >
-                  3 Lá
-                </button>
-              </div>
-              <div className={styles.spreadDesc}>
-                {state.spreadCount === 1 ? 'Dùng cho câu hỏi nhanh, xin lời khuyên hoặc năng lượng hiện tại.' : 'Dùng cho câu hỏi chi tiết: Hiện tại, Thử thách, Lời khuyên.'}
-              </div>
+                  <div className={styles.spreadLabel}>{opt.label}</div>
+                  <div className={styles.spreadDesc}>{opt.desc}</div>
+                </div>
+              ))}
             </div>
 
             <button 
               className={styles.startBtn} 
-              disabled={state.status === 'WELCOME' || cardsData.length === 0}
+              disabled={!state.question.trim() || cardsData.length === 0}
               onClick={handleStart}
             >
               Bắt đầu trải bài
@@ -79,53 +74,30 @@ export default function Home() {
           </div>
         )}
 
-        {/* Deck, Picking, Revealing States */}
-        {['SHUFFLING', 'PICKING', 'READY_TO_REVEAL', 'REVEALING'].includes(state.status) && (
-          <TarotDeck 
+        {/* Màn hình trải bài */}
+        {['SHUFFLING', 'PICKING', 'INTERPRETING', 'ERROR'].includes(state.status) && state.pickedCards.length >= 0 && (
+          <ReadingStage 
             status={state.status}
+            question={state.question}
             deck={state.deck}
-            pickedIndices={state.pickedIndices}
+            pickedCards={state.pickedCards}
             spreadCount={state.spreadCount}
             onPickCard={pickCard}
-            onRevealCards={revealCards}
-            pickedCards={getPickedCards()}
-          />
-        )}
-
-        {/* AI Loading State */}
-        {state.status === 'INTERPRETING' && (
-          <AILoading />
-        )}
-
-        {/* Result State */}
-        {state.status === 'RESULT' && state.interpretation && (
-          <Result 
-            question={state.question}
-            pickedCards={getPickedCards()}
-            interpretation={state.interpretation}
+            onAllRevealed={startInterpretation}
+            error={state.error}
+            onRetry={startInterpretation}
             onRestart={restart}
           />
         )}
 
-        {/* Error State */}
-        {state.status === 'ERROR' && (
-          <div className={styles.errorSection}>
-            <div className={styles.errorIcon}>⚠️</div>
-            <h3 className={styles.errorTitle}>Kết nối bị gián đoạn</h3>
-            <p className={styles.errorText}>
-              Không thể đọc thông điệp lúc này.<br/>
-              Các lá bài của bạn vẫn được giữ nguyên.
-            </p>
-            <p className={styles.errorDetail}>{state.error}</p>
-            <div className={styles.errorActions}>
-              <button className={styles.retryBtn} onClick={fetchInterpretation}>
-                Thử giải nghĩa lại
-              </button>
-              <button className={styles.cancelBtn} onClick={restart}>
-                Bắt đầu lại
-              </button>
-            </div>
-          </div>
+        {/* Kết quả giải bài */}
+        {state.status === 'RESULT' && state.interpretation && (
+          <Result 
+            question={state.question}
+            pickedCards={state.pickedCards}
+            interpretation={state.interpretation}
+            onRestart={restart}
+          />
         )}
       </div>
     </main>

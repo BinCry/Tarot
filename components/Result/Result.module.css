@@ -1,161 +1,171 @@
-.resultContainer {
-  max-width: 800px;
+.container {
+  max-width: 680px;
   margin: 0 auto;
-  padding: 40px 20px;
-  animation: fadeIn 1s ease;
-  color: var(--text-color);
+  padding: 40px 20px 120px;
+  width: 100%;
 }
 
 .header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.question {
   font-family: var(--font-serif);
   font-size: 1.5rem;
-  text-align: center;
-  color: var(--accent-color);
-  letter-spacing: 2px;
-  margin-bottom: 30px;
-}
-
-.questionSection {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.questionLabel {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #888;
-  margin-bottom: 10px;
-}
-
-.questionText {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-style: italic;
   color: #fff;
+  line-height: 1.4;
+  font-style: italic;
 }
 
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--card-border), transparent);
-  margin: 40px 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  margin: 32px 0;
+  width: 100%;
 }
 
-.subDivider {
-  height: 1px;
-  background-color: var(--card-border);
-  margin: 30px 0;
-  opacity: 0.5;
+.section {
+  margin-bottom: 24px;
 }
 
-.cardResultRow {
-  margin-bottom: 20px;
-}
-
-.cardResultHeader {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
+.sectionTitle {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
   color: var(--accent-color);
-  letter-spacing: 1px;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
-.cardResultContent {
+.bodyText {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #e5e5e5;
+  font-family: var(--font-sans);
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.cardDetail {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-@media (min-width: 768px) {
-  .cardResultContent {
+@media (min-width: 600px) {
+  .cardDetail {
     flex-direction: row;
-    align-items: flex-start;
+    gap: 32px;
   }
 }
 
-.cardWrapper {
+.cardVisual {
   flex-shrink: 0;
+  width: 120px;
   margin: 0 auto;
 }
 
-.staticCard:hover {
-  transform: none; /* Disable hover effect in result view */
+@media (min-width: 600px) {
+  .cardVisual {
+    width: 160px;
+    margin: 0;
+  }
 }
 
-.cardTextInfo {
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 2/3.5;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 2/3.5;
+  border-radius: 8px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  font-size: 2rem;
+}
+
+.cardContent {
   flex: 1;
 }
 
-.cardTitle {
-  font-size: 1.5rem;
-  margin-bottom: 5px;
+.cardName {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
   color: #fff;
+  margin-bottom: 4px;
 }
 
 .cardOrientation {
-  font-size: 0.9rem;
-  color: var(--accent-color);
-  margin-bottom: 15px;
-  font-style: italic;
-}
-
-.cardMeaning {
-  line-height: 1.6;
-  color: #ddd;
-}
-
-.sectionTitle {
-  font-size: 1.2rem;
-  color: var(--accent-color);
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 16px;
   letter-spacing: 1px;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-}
-
-.summaryText, .connectionText, .guidanceText {
-  line-height: 1.7;
-  margin-bottom: 20px;
-  font-size: 1.05rem;
-}
-
-.reflectionBox {
-  background-color: var(--card-back);
-  border: 1px solid var(--card-border);
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 30px;
-  border-left: 4px solid var(--accent-color);
-}
-
-.reflectionLabel {
-  font-size: 0.9rem;
-  color: var(--accent-color);
-  margin-bottom: 10px;
 }
 
 .reflectionText {
   font-family: var(--font-serif);
   font-size: 1.2rem;
-  font-style: italic;
-}
-
-.actionArea {
-  display: flex;
-  justify-content: center;
-  margin-top: 60px;
-}
-
-.restartButton {
-  background-color: transparent;
+  line-height: 1.6;
   color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-  padding: 12px 40px;
-  border-radius: 30px;
+  font-style: italic;
+  text-align: center;
+  padding: 24px;
+  background: rgba(212, 175, 55, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.footer {
+  margin-top: 64px;
+  text-align: center;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+.restartBtn {
+  background: var(--text-color);
+  color: var(--bg-color);
+  padding: 16px 40px;
+  border-radius: 12px;
   font-size: 1.1rem;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
-.restartButton:hover {
-  background-color: var(--accent-glow);
-  box-shadow: 0 0 15px var(--accent-glow);
+.restartBtn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.1);
 }

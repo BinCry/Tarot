@@ -17,11 +17,8 @@ export interface PickedCard extends TarotCardData {
 
 export type TarotStateStatus = 
   | 'WELCOME'
-  | 'QUESTION_READY'
   | 'SHUFFLING'
   | 'PICKING'
-  | 'READY_TO_REVEAL'
-  | 'REVEALING'
   | 'INTERPRETING'
   | 'RESULT'
   | 'ERROR';
@@ -29,9 +26,9 @@ export type TarotStateStatus =
 export interface TarotState {
   status: TarotStateStatus;
   question: string;
-  spreadCount: number; // 1 or 3
+  spreadCount: number; // 1, 3, 6, 12
   deck: PickedCard[]; // shuffled deck with random orientations
-  pickedIndices: number[]; // indices of picked cards in the deck
+  pickedCards: PickedCard[]; // cards currently picked and in slots
   interpretation: InterpretationResult | null;
   error: string | null;
 }
@@ -47,11 +44,10 @@ export interface InterpretationResult {
 export type TarotAction = 
   | { type: 'SET_QUESTION'; payload: string }
   | { type: 'SET_SPREAD_COUNT'; payload: number }
-  | { type: 'START_READING'; payload: PickedCard[] } // triggers shuffle, passes deck
+  | { type: 'START_READING'; payload: PickedCard[] } 
   | { type: 'FINISH_SHUFFLE' }
-  | { type: 'PICK_CARD'; payload: number } // card index
-  | { type: 'REVEAL_CARDS' }
-  | { type: 'FINISH_REVEAL' } // starts interpreting
+  | { type: 'PICK_CARD'; payload: PickedCard } 
+  | { type: 'START_INTERPRETATION' }
   | { type: 'SET_INTERPRETATION'; payload: InterpretationResult }
   | { type: 'SET_ERROR'; payload: string }
   | { type: 'RESTART' };
