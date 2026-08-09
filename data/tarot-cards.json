@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "The Fool",
-    "image": "/cards/ar00.jpg",
+    "image": "/cards/m00.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -14,7 +14,7 @@
   {
     "id": 2,
     "name": "The Magician",
-    "image": "/cards/ar01.jpg",
+    "image": "/cards/m01.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -26,7 +26,7 @@
   {
     "id": 3,
     "name": "The High Priestess",
-    "image": "/cards/ar02.jpg",
+    "image": "/cards/m02.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -38,7 +38,7 @@
   {
     "id": 4,
     "name": "The Empress",
-    "image": "/cards/ar03.jpg",
+    "image": "/cards/m03.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -50,7 +50,7 @@
   {
     "id": 5,
     "name": "The Emperor",
-    "image": "/cards/ar04.jpg",
+    "image": "/cards/m04.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -62,7 +62,7 @@
   {
     "id": 6,
     "name": "The Hierophant",
-    "image": "/cards/ar05.jpg",
+    "image": "/cards/m05.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -74,7 +74,7 @@
   {
     "id": 7,
     "name": "The Lovers",
-    "image": "/cards/ar06.jpg",
+    "image": "/cards/m06.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -86,7 +86,7 @@
   {
     "id": 8,
     "name": "The Chariot",
-    "image": "/cards/ar07.jpg",
+    "image": "/cards/m07.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -98,7 +98,7 @@
   {
     "id": 9,
     "name": "Strength",
-    "image": "/cards/ar08.jpg",
+    "image": "/cards/m08.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -110,7 +110,7 @@
   {
     "id": 10,
     "name": "The Hermit",
-    "image": "/cards/ar09.jpg",
+    "image": "/cards/m09.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -122,7 +122,7 @@
   {
     "id": 11,
     "name": "Wheel of Fortune",
-    "image": "/cards/ar10.jpg",
+    "image": "/cards/m10.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -134,7 +134,7 @@
   {
     "id": 12,
     "name": "Justice",
-    "image": "/cards/ar11.jpg",
+    "image": "/cards/m11.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -146,7 +146,7 @@
   {
     "id": 13,
     "name": "The Hanged Man",
-    "image": "/cards/ar12.jpg",
+    "image": "/cards/m12.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -158,7 +158,7 @@
   {
     "id": 14,
     "name": "Death",
-    "image": "/cards/ar13.jpg",
+    "image": "/cards/m13.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -170,7 +170,7 @@
   {
     "id": 15,
     "name": "Temperance",
-    "image": "/cards/ar14.jpg",
+    "image": "/cards/m14.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -182,7 +182,7 @@
   {
     "id": 16,
     "name": "The Devil",
-    "image": "/cards/ar15.jpg",
+    "image": "/cards/m15.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -194,7 +194,7 @@
   {
     "id": 17,
     "name": "The Tower",
-    "image": "/cards/ar16.jpg",
+    "image": "/cards/m16.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -206,7 +206,7 @@
   {
     "id": 18,
     "name": "The Star",
-    "image": "/cards/ar17.jpg",
+    "image": "/cards/m17.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -218,7 +218,7 @@
   {
     "id": 19,
     "name": "The Moon",
-    "image": "/cards/ar18.jpg",
+    "image": "/cards/m18.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -230,7 +230,7 @@
   {
     "id": 20,
     "name": "The Sun",
-    "image": "/cards/ar19.jpg",
+    "image": "/cards/m19.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -242,7 +242,7 @@
   {
     "id": 21,
     "name": "Judgement",
-    "image": "/cards/ar20.jpg",
+    "image": "/cards/m20.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -254,7 +254,7 @@
   {
     "id": 22,
     "name": "The World",
-    "image": "/cards/ar21.jpg",
+    "image": "/cards/m21.jpg",
     "arcana": "Major",
     "suit": "None",
     "keywords": [
@@ -266,7 +266,7 @@
   {
     "id": 23,
     "name": "Ace of Wands",
-    "image": "/cards/wa01.jpg",
+    "image": "/cards/w01.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -278,7 +278,7 @@
   {
     "id": 24,
     "name": "Two of Wands",
-    "image": "/cards/wa02.jpg",
+    "image": "/cards/w02.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -290,7 +290,7 @@
   {
     "id": 25,
     "name": "Three of Wands",
-    "image": "/cards/wa03.jpg",
+    "image": "/cards/w03.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -302,7 +302,7 @@
   {
     "id": 26,
     "name": "Four of Wands",
-    "image": "/cards/wa04.jpg",
+    "image": "/cards/w04.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -314,7 +314,7 @@
   {
     "id": 27,
     "name": "Five of Wands",
-    "image": "/cards/wa05.jpg",
+    "image": "/cards/w05.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -326,7 +326,7 @@
   {
     "id": 28,
     "name": "Six of Wands",
-    "image": "/cards/wa06.jpg",
+    "image": "/cards/w06.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -338,7 +338,7 @@
   {
     "id": 29,
     "name": "Seven of Wands",
-    "image": "/cards/wa07.jpg",
+    "image": "/cards/w07.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -350,7 +350,7 @@
   {
     "id": 30,
     "name": "Eight of Wands",
-    "image": "/cards/wa08.jpg",
+    "image": "/cards/w08.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -362,7 +362,7 @@
   {
     "id": 31,
     "name": "Nine of Wands",
-    "image": "/cards/wa09.jpg",
+    "image": "/cards/w09.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -374,7 +374,7 @@
   {
     "id": 32,
     "name": "Ten of Wands",
-    "image": "/cards/wa10.jpg",
+    "image": "/cards/w10.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -386,7 +386,7 @@
   {
     "id": 33,
     "name": "Page of Wands",
-    "image": "/cards/wa11.jpg",
+    "image": "/cards/w11.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -398,7 +398,7 @@
   {
     "id": 34,
     "name": "Knight of Wands",
-    "image": "/cards/wa12.jpg",
+    "image": "/cards/w12.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -410,7 +410,7 @@
   {
     "id": 35,
     "name": "Queen of Wands",
-    "image": "/cards/wa13.jpg",
+    "image": "/cards/w13.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -422,7 +422,7 @@
   {
     "id": 36,
     "name": "King of Wands",
-    "image": "/cards/wa14.jpg",
+    "image": "/cards/w14.jpg",
     "arcana": "Minor",
     "suit": "Wands",
     "keywords": [
@@ -434,7 +434,7 @@
   {
     "id": 37,
     "name": "Ace of Cups",
-    "image": "/cards/cu01.jpg",
+    "image": "/cards/c01.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -446,7 +446,7 @@
   {
     "id": 38,
     "name": "Two of Cups",
-    "image": "/cards/cu02.jpg",
+    "image": "/cards/c02.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -458,7 +458,7 @@
   {
     "id": 39,
     "name": "Three of Cups",
-    "image": "/cards/cu03.jpg",
+    "image": "/cards/c03.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -470,7 +470,7 @@
   {
     "id": 40,
     "name": "Four of Cups",
-    "image": "/cards/cu04.jpg",
+    "image": "/cards/c04.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -482,7 +482,7 @@
   {
     "id": 41,
     "name": "Five of Cups",
-    "image": "/cards/cu05.jpg",
+    "image": "/cards/c05.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -494,7 +494,7 @@
   {
     "id": 42,
     "name": "Six of Cups",
-    "image": "/cards/cu06.jpg",
+    "image": "/cards/c06.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -506,7 +506,7 @@
   {
     "id": 43,
     "name": "Seven of Cups",
-    "image": "/cards/cu07.jpg",
+    "image": "/cards/c07.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -518,7 +518,7 @@
   {
     "id": 44,
     "name": "Eight of Cups",
-    "image": "/cards/cu08.jpg",
+    "image": "/cards/c08.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -530,7 +530,7 @@
   {
     "id": 45,
     "name": "Nine of Cups",
-    "image": "/cards/cu09.jpg",
+    "image": "/cards/c09.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -542,7 +542,7 @@
   {
     "id": 46,
     "name": "Ten of Cups",
-    "image": "/cards/cu10.jpg",
+    "image": "/cards/c10.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -554,7 +554,7 @@
   {
     "id": 47,
     "name": "Page of Cups",
-    "image": "/cards/cu11.jpg",
+    "image": "/cards/c11.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -566,7 +566,7 @@
   {
     "id": 48,
     "name": "Knight of Cups",
-    "image": "/cards/cu12.jpg",
+    "image": "/cards/c12.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -578,7 +578,7 @@
   {
     "id": 49,
     "name": "Queen of Cups",
-    "image": "/cards/cu13.jpg",
+    "image": "/cards/c13.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -590,7 +590,7 @@
   {
     "id": 50,
     "name": "King of Cups",
-    "image": "/cards/cu14.jpg",
+    "image": "/cards/c14.jpg",
     "arcana": "Minor",
     "suit": "Cups",
     "keywords": [
@@ -602,7 +602,7 @@
   {
     "id": 51,
     "name": "Ace of Swords",
-    "image": "/cards/sw01.jpg",
+    "image": "/cards/s01.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -614,7 +614,7 @@
   {
     "id": 52,
     "name": "Two of Swords",
-    "image": "/cards/sw02.jpg",
+    "image": "/cards/s02.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -626,7 +626,7 @@
   {
     "id": 53,
     "name": "Three of Swords",
-    "image": "/cards/sw03.jpg",
+    "image": "/cards/s03.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -638,7 +638,7 @@
   {
     "id": 54,
     "name": "Four of Swords",
-    "image": "/cards/sw04.jpg",
+    "image": "/cards/s04.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -650,7 +650,7 @@
   {
     "id": 55,
     "name": "Five of Swords",
-    "image": "/cards/sw05.jpg",
+    "image": "/cards/s05.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -662,7 +662,7 @@
   {
     "id": 56,
     "name": "Six of Swords",
-    "image": "/cards/sw06.jpg",
+    "image": "/cards/s06.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -674,7 +674,7 @@
   {
     "id": 57,
     "name": "Seven of Swords",
-    "image": "/cards/sw07.jpg",
+    "image": "/cards/s07.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -686,7 +686,7 @@
   {
     "id": 58,
     "name": "Eight of Swords",
-    "image": "/cards/sw08.jpg",
+    "image": "/cards/s08.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -698,7 +698,7 @@
   {
     "id": 59,
     "name": "Nine of Swords",
-    "image": "/cards/sw09.jpg",
+    "image": "/cards/s09.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -710,7 +710,7 @@
   {
     "id": 60,
     "name": "Ten of Swords",
-    "image": "/cards/sw10.jpg",
+    "image": "/cards/s10.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -722,7 +722,7 @@
   {
     "id": 61,
     "name": "Page of Swords",
-    "image": "/cards/sw11.jpg",
+    "image": "/cards/s11.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -734,7 +734,7 @@
   {
     "id": 62,
     "name": "Knight of Swords",
-    "image": "/cards/sw12.jpg",
+    "image": "/cards/s12.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -746,7 +746,7 @@
   {
     "id": 63,
     "name": "Queen of Swords",
-    "image": "/cards/sw13.jpg",
+    "image": "/cards/s13.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -758,7 +758,7 @@
   {
     "id": 64,
     "name": "King of Swords",
-    "image": "/cards/sw14.jpg",
+    "image": "/cards/s14.jpg",
     "arcana": "Minor",
     "suit": "Swords",
     "keywords": [
@@ -770,7 +770,7 @@
   {
     "id": 65,
     "name": "Ace of Pentacles",
-    "image": "/cards/pe01.jpg",
+    "image": "/cards/p01.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -782,7 +782,7 @@
   {
     "id": 66,
     "name": "Two of Pentacles",
-    "image": "/cards/pe02.jpg",
+    "image": "/cards/p02.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -794,7 +794,7 @@
   {
     "id": 67,
     "name": "Three of Pentacles",
-    "image": "/cards/pe03.jpg",
+    "image": "/cards/p03.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -806,7 +806,7 @@
   {
     "id": 68,
     "name": "Four of Pentacles",
-    "image": "/cards/pe04.jpg",
+    "image": "/cards/p04.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -818,7 +818,7 @@
   {
     "id": 69,
     "name": "Five of Pentacles",
-    "image": "/cards/pe05.jpg",
+    "image": "/cards/p05.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -830,7 +830,7 @@
   {
     "id": 70,
     "name": "Six of Pentacles",
-    "image": "/cards/pe06.jpg",
+    "image": "/cards/p06.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -842,7 +842,7 @@
   {
     "id": 71,
     "name": "Seven of Pentacles",
-    "image": "/cards/pe07.jpg",
+    "image": "/cards/p07.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -854,7 +854,7 @@
   {
     "id": 72,
     "name": "Eight of Pentacles",
-    "image": "/cards/pe08.jpg",
+    "image": "/cards/p08.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -866,7 +866,7 @@
   {
     "id": 73,
     "name": "Nine of Pentacles",
-    "image": "/cards/pe09.jpg",
+    "image": "/cards/p09.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -878,7 +878,7 @@
   {
     "id": 74,
     "name": "Ten of Pentacles",
-    "image": "/cards/pe10.jpg",
+    "image": "/cards/p10.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -890,7 +890,7 @@
   {
     "id": 75,
     "name": "Page of Pentacles",
-    "image": "/cards/pe11.jpg",
+    "image": "/cards/p11.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -902,7 +902,7 @@
   {
     "id": 76,
     "name": "Knight of Pentacles",
-    "image": "/cards/pe12.jpg",
+    "image": "/cards/p12.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -914,7 +914,7 @@
   {
     "id": 77,
     "name": "Queen of Pentacles",
-    "image": "/cards/pe13.jpg",
+    "image": "/cards/p13.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [
@@ -926,7 +926,7 @@
   {
     "id": 78,
     "name": "King of Pentacles",
-    "image": "/cards/pe14.jpg",
+    "image": "/cards/p14.jpg",
     "arcana": "Minor",
     "suit": "Pentacles",
     "keywords": [

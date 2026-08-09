@@ -4,8 +4,7 @@ const https = require('https');
 
 // We use the open source dataset from metabismuth/tarot-json
 // which contains public domain Rider Waite Smith images.
-const BASE_URL = 'https://raw.githubusercontent.com/howarder3/tarot-json/master/cards/';
-const JSON_URL = 'https://raw.githubusercontent.com/howarder3/tarot-json/master/tarot-images.json';
+const BASE_URL = 'https://raw.githubusercontent.com/metabismuth/tarot-json/master/cards/';
 
 const publicCardsDir = path.join(__dirname, '../public/cards');
 const dataDir = path.join(__dirname, '../data');
@@ -52,24 +51,24 @@ async function main() {
     
     // Instead of downloading their JSON, we'll just download the 78 images.
     // The naming in that repo is:
-    // Major: ar00.jpg to ar21.jpg
-    // Wands: wa01.jpg to wa14.jpg
-    // Cups: cu01.jpg to cu14.jpg
-    // Swords: sw01.jpg to sw14.jpg
-    // Pentacles: pe01.jpg to pe14.jpg
+    // Major: m00.jpg to m21.jpg
+    // Wands: w01.jpg to w14.jpg
+    // Cups: c01.jpg to c14.jpg
+    // Swords: s01.jpg to s14.jpg
+    // Pentacles: p01.jpg to p14.jpg
 
     const suits = [
-      { prefix: 'ar', count: 22, name: 'Major' }, // Major Arcana 0-21
-      { prefix: 'wa', count: 14, name: 'Wands' },
-      { prefix: 'cu', count: 14, name: 'Cups' },
-      { prefix: 'sw', count: 14, name: 'Swords' },
-      { prefix: 'pe', count: 14, name: 'Pentacles' }
+      { prefix: 'm', count: 22, name: 'Major' }, // Major Arcana 0-21
+      { prefix: 'w', count: 14, name: 'Wands' },
+      { prefix: 'c', count: 14, name: 'Cups' },
+      { prefix: 's', count: 14, name: 'Swords' },
+      { prefix: 'p', count: 14, name: 'Pentacles' }
     ];
 
     let total = 0;
     for (const suit of suits) {
-      const start = suit.prefix === 'ar' ? 0 : 1;
-      const end = suit.prefix === 'ar' ? 21 : 14;
+      const start = suit.prefix === 'm' ? 0 : 1;
+      const end = suit.prefix === 'm' ? 21 : 14;
       
       for (let i = start; i <= end; i++) {
         const numStr = i.toString().padStart(2, '0');
@@ -106,7 +105,7 @@ function generateVietnameseData() {
   ];
 
   const suits = ["Wands", "Cups", "Swords", "Pentacles"];
-  const suitPrefixes = { "Wands": "wa", "Cups": "cu", "Swords": "sw", "Pentacles": "pe" };
+  const suitPrefixes = { "Wands": "w", "Cups": "c", "Swords": "s", "Pentacles": "p" };
   const ranks = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Page", "Knight", "Queen", "King"];
 
   const cards = [];
@@ -118,7 +117,7 @@ function generateVietnameseData() {
     cards.push({
       id: id++,
       name: name,
-      image: `/cards/ar${numStr}.jpg`,
+      image: `/cards/m${numStr}.jpg`,
       arcana: "Major",
       suit: "None",
       keywords: ["..."],
